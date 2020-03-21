@@ -36,6 +36,9 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                 <td>
+                  <a href="{{ route('user.show', $user->id) }}" class="btn btn-sm btn-info">
+                    Detail
+                  </a>
                   <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-success">
                     Edit
                   </a>
