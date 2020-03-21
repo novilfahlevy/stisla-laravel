@@ -15,5 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('home', 'HomeController@index')->name('home');
-Route::resource('user', 'UserController');
+Route::middleware('auth')->group(function() {
+  Route::get('home', 'HomeController@index')->name('home');
+  Route::resource('user', 'UserController');
+});

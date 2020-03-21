@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\AddRequest;
+use App\Http\Requests\User\EditRequest;
 use Illuminate\Http\Request;
 use App\User;
 
@@ -25,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+      return view('admin.users.create');
     }
 
     /**
@@ -34,9 +36,19 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddRequest $request)
     {
-        //
+      if ( User::create($request->all()) ) {
+        return redirect('user')->with('user_alert', [
+          'type' => 'success',
+          'message' => 'User has successfully added.'
+        ]);
+      }
+
+      return redirect('user')->with('user_alert', [
+        'type' => 'danger',
+        'message' => 'Failed to delete user, something went wrong.'
+      ]);
     }
 
     /**
@@ -47,9 +59,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+      //
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -58,7 +70,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+      $user = User::find($id);
+      return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -68,9 +81,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditRequest $request, $id)
     {
-        //
+      if ( User::where('id', $id)->update($request->except(['_method', '_token'])) ) {
+        return redirect('user')->with('user_alert', [
+          'type' => 'success',
+          'message' => 'User data has successfully updated.'
+        ]);
+      }
+
+      return redirect('user')->with('user_alert', [
+        'type' => 'danger',
+        'message' => 'Failed to edit user, something went wrong.'
+      ]);
     }
 
     /**
