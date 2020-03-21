@@ -36,16 +36,13 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                 <td>
-                  <a href="{{ route('user.show', $user->id) }}" class="btn btn-sm btn-info">
+                  <a href="{{ route('user.show', $user->id) }}" class="btn btn-sm btn-info mr-1">
                     Detail
                   </a>
-                  <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-success">
+                  <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-success mr-1">
                     Edit
                   </a>
-                  <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="d-none" id="delete_user_form">
-                    @csrf @method('delete')
-                  </form>
-                  <button type="button" onclick="document.getElementById('delete_user_form').submit();" class="btn btn-sm btn-danger">
+                  <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" id="deleteModalButton" data-id="{{ $user->id }}">
                     Delete
                   </button>
                 </td>
@@ -58,3 +55,37 @@
   </div>
 </div>
 @endsection
+
+@push('modal')
+<div class="modal" tabindex="-1" role="dialog" id="deleteModal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form action="{{ route('user.destroy', 1) }}" method="POST" id="deleteUserForm">
+        @csrf @method('delete')
+        <div class="modal-body pt-5">
+          <h5 class="mb-0 text-center">Are you sure you want to delete this user?</h5>
+        </div>
+        <div class="modal-footer py-3">
+          <div class="row w-100">
+            <div class="col-6">
+              <button type="submit" class="btn btn-danger w-100">Delete</button>
+            </div>
+            <div class="col-6">
+              <button type="button" class="btn btn-secondary w-100" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+@endpush
+
+@push('js')
+<script>
+  $('button#deleteModalButton').on('click', function() {
+    const userId = $(this).data('id');
+    $('form#deleteUserForm').attr('action', `${baseURL}/user/${userId}`);
+  });
+</script>
+@endpush

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\AddRequest;
 use App\Http\Requests\User\EditRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 
 class UserController extends Controller
@@ -38,7 +39,10 @@ class UserController extends Controller
      */
     public function store(AddRequest $request)
     {
-      if ( User::create($request->all()) ) {
+      $data = $request->all();
+      $data['password'] = Hash::make($data['password']);
+
+      if ( User::create($data) ) {
         return redirect('user')->with('user_alert', [
           'type' => 'success',
           'message' => 'User has successfully added.'

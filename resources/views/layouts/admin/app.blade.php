@@ -10,6 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+    <script>const baseURL = `{{ url('/') }}`;</script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
@@ -43,6 +44,8 @@
         @include('layouts.admin.footer')
       </div>
     </div>
+
+    @stack('modal')
   
     {{-- CDN --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -53,5 +56,7 @@
     <script src="{{ asset('js/stisla.js') }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+
+    @stack('js')
 </body>
 </html>
