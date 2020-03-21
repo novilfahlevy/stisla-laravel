@@ -17,6 +17,8 @@ class UserController extends Controller
      */
     public function index()
     {
+      $this->authorizePermissions('see_users');
+
       $users = User::all();
       return view('admin.users.index', compact('users'));
     }
@@ -28,9 +30,10 @@ class UserController extends Controller
      */
     public function create()
     {
+      $this->authorizePermissions('add_users');
       return view('admin.users.create');
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -39,6 +42,8 @@ class UserController extends Controller
      */
     public function store(AddRequest $request)
     {
+      $this->authorizePermissions('add_users');
+
       $data = $request->all();
       $data['password'] = Hash::make($data['password']);
 
@@ -63,6 +68,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
+      $this->authorizePermissions('see_user');
+
       $user = User::find($id);
       return view('admin.users.show', compact('user'));
     }
@@ -75,10 +82,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+      $this->authorizePermissions('edit_users');
+      
       $user = User::find($id);
       return view('admin.users.edit', compact('user'));
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -88,6 +97,8 @@ class UserController extends Controller
      */
     public function update(EditRequest $request, $id)
     {
+      $this->authorizePermissions('edit_users');
+
       if ( User::where('id', $id)->update($request->except(['_method', '_token'])) ) {
         return redirect('user')->with('user_alert', [
           'type' => 'success',
@@ -109,6 +120,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+      $this->authorizePermissions('delete_users');
+
       if ( User::where('id', $id)->delete() ) {
         return redirect('user')->with('user_alert', [
           'type' => 'success',

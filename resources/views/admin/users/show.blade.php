@@ -23,6 +23,10 @@
               <h6 class="mb-0">Email</h6>
               <p class="mb-0">{{ $user->email }}</p>
             </li>
+            <li class="list-group-item">
+              <h6 class="mb-0">Role</h6>
+              <p class="mb-0">{{ $user->roles->pluck('name')->first() }}</p>
+            </li>
           </ul>
         </div>
       </div>

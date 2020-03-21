@@ -24,6 +24,7 @@
               <th scope="col">#</th>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
+              <th scope="col">Role</th>
               <th scope="col">Created At</th>
               <th scope="col">Action</th>
             </tr>
@@ -34,6 +35,7 @@
                 <th scope="row">{{ $i + 1 }}</th>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
+                <td>{{ $user->roles->pluck('name')->first() }}</td>
                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                 <td>
                   <a href="{{ route('user.show', $user->id) }}" class="btn btn-sm btn-info mr-1">
