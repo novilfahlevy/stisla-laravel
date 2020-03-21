@@ -57,7 +57,7 @@
 @endsection
 
 @push('modal')
-<div class="modal" tabindex="-1" role="dialog" id="deleteModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <form action="{{ route('user.destroy', 1) }}" method="POST" id="deleteUserForm">

@@ -19,6 +19,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/components.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
