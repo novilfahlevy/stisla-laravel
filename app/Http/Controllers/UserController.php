@@ -47,7 +47,9 @@ class UserController extends Controller
       $data = $request->all();
       $data['password'] = Hash::make($data['password']);
 
-      if ( User::create($data) ) {
+      if ( $user = User::create($data) ) {
+        $user->assignRole('user');
+        
         return redirect('user')->with('alert', [
           'type' => 'success',
           'message' => 'User has successfully added.'
