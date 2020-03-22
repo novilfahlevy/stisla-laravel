@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-      $this->authorizePermissions('add_users');
+      $this->authorizePermissions('add_user');
       return view('admin.users.create');
     }
     
@@ -42,19 +42,19 @@ class UserController extends Controller
      */
     public function store(AddRequest $request)
     {
-      $this->authorizePermissions('add_users');
+      $this->authorizePermissions('add_user');
 
       $data = $request->all();
       $data['password'] = Hash::make($data['password']);
 
       if ( User::create($data) ) {
-        return redirect('user')->with('user_alert', [
+        return redirect('user')->with('alert', [
           'type' => 'success',
           'message' => 'User has successfully added.'
         ]);
       }
 
-      return redirect('user')->with('user_alert', [
+      return redirect('user')->with('alert', [
         'type' => 'danger',
         'message' => 'Failed to delete user, something went wrong.'
       ]);
@@ -82,7 +82,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-      $this->authorizePermissions('edit_users');
+      $this->authorizePermissions('edit_user');
       
       $user = User::find($id);
       return view('admin.users.edit', compact('user'));
@@ -97,16 +97,16 @@ class UserController extends Controller
      */
     public function update(EditRequest $request, $id)
     {
-      $this->authorizePermissions('edit_users');
+      $this->authorizePermissions('edit_user');
 
       if ( User::where('id', $id)->update($request->except(['_method', '_token'])) ) {
-        return redirect('user')->with('user_alert', [
+        return redirect('user')->with('alert', [
           'type' => 'success',
           'message' => 'User data has successfully updated.'
         ]);
       }
 
-      return redirect('user')->with('user_alert', [
+      return redirect('user')->with('alert', [
         'type' => 'danger',
         'message' => 'Failed to edit user, something went wrong.'
       ]);
@@ -120,16 +120,16 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-      $this->authorizePermissions('delete_users');
+      $this->authorizePermissions('delete_user');
 
       if ( User::where('id', $id)->delete() ) {
-        return redirect('user')->with('user_alert', [
+        return redirect('user')->with('alert', [
           'type' => 'success',
           'message' => 'User has successfully deleted.'
         ]);
       }
 
-      return redirect('user')->with('user_alert', [
+      return redirect('user')->with('alert', [
         'type' => 'danger',
         'message' => 'Failed to delete user, something went wrong.'
       ]);

@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Stisla Dashboard Laravel</title>
 
     <!-- Scripts -->
     <script>const baseURL = `{{ url('/') }}`;</script>

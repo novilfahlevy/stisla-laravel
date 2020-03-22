@@ -17,5 +17,7 @@ Auth::routes();
 
 Route::middleware(['auth', 'role:admin'])->group(function() {
   Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+
   Route::resource('user', 'UserController');
+  Route::resource('role', 'RoleController');
 });

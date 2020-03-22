@@ -3,8 +3,8 @@
 @section('content')
 <div class="row">
   <div class="col-12">
-    @if (request()->session()->has('user_alert'))
-      @php $alert = request()->session()->get('user_alert') @endphp
+    @if (request()->session()->has('alert'))
+      @php $alert = request()->session()->get('alert') @endphp
       <x-alert :type="$alert['type']" :message="$alert['message']" />
     @endif
     <div class="card">
@@ -62,7 +62,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <form action="{{ route('user.destroy', 1) }}" method="POST" id="deleteUserForm">
+      <form action="#" method="POST" id="deleteUserForm">
         @csrf @method('delete')
         <div class="modal-body pt-5">
           <h5 class="mb-0 text-center">Are you sure you want to delete this user?</h5>
