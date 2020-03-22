@@ -13,6 +13,7 @@ class DashboardController extends Controller
    */
   public function index()
   {
+    $this->authorizePermissions('see_dashboard');
     return view('admin.dashboard.index');
   }
 }

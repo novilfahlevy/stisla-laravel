@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\AddRequest;
 use App\Http\Requests\User\EditRequest;
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
@@ -87,7 +88,8 @@ class UserController extends Controller
       $this->authorizePermissions('edit_user');
       
       $user = User::find($id);
-      return view('admin.users.edit', compact('user'));
+      $roles = Role::all()->pluck('name');
+      return view('admin.users.edit', compact('user', 'roles'));
     }
     
     /**
@@ -101,7 +103,8 @@ class UserController extends Controller
     {
       $this->authorizePermissions('edit_user');
 
-      if ( User::where('id', $id)->update($request->except(['_method', '_token'])) ) {
+      if ( User::where('id', $id)->update($request->except(['_method', '_token', 'role'])) ) {
+        User::find($id)->assignRole($request->role);
         return redirect('user')->with('alert', [
           'type' => 'success',
           'message' => 'User data has successfully updated.'

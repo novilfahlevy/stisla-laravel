@@ -10,12 +10,14 @@
     <div class="card">
       <div class="card-header">
         <h4>User List</h4>
+        @can('add_user')
         <div class="card-header-form">
           <a href="{{ route('user.create') }}" class="btn btn-primary">
             <i class="fas fa-plus mr-1"></i>
             User
           </a>
         </div>
+        @endcan
       </div>
       <div class="card-body">
         <table class="table">
@@ -38,15 +40,21 @@
                 <td>{{ $user->roles->pluck('name')->first() }}</td>
                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                 <td>
+                  @can('see_user')
                   <a href="{{ route('user.show', $user->id) }}" class="btn btn-sm btn-info mr-1">
                     Detail
                   </a>
+                  @endcan
+                  @can('edit_user')
                   <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-success mr-1">
                     Edit
                   </a>
+                  @endcan
+                  @can('delete_user')
                   <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" id="deleteModalButton" data-id="{{ $user->id }}">
                     Delete
                   </button>
+                  @endcan
                 </td>
               </tr>
             @endforeach

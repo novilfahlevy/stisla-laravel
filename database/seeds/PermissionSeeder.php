@@ -12,6 +12,7 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
+      Permission::create(['name' => 'see_dashboard'])->assignRole('admin');
       Permission::create(['name' => 'see_users'])->assignRole('admin');
       Permission::create(['name' => 'see_user'])->assignRole('admin');
       Permission::create(['name' => 'delete_user'])->assignRole('admin');

@@ -1,13 +1,19 @@
-@extends('layouts.admin.app', ['title' => 'Permissions (' . $role . ')'])
+@extends('layouts.admin.app', ['title' => 'Permissions (' . $role['name'] . ')'])
 
 @section('content')
   <div class="row">
+    <div class="col-12">
+      @if (request()->session()->has('alert'))
+        @php $alert = request()->session()->get('alert') @endphp
+        <x-alert :type="$alert['type']" :message="$alert['message']" />
+      @endif
+    </div>
     <div class="col-12">  
       <div class="card">
         <div class="card-header">
           <h4>Permission List</h4>
           <div class="card-header-form">
-            <a href="#" class="btn btn-success mr-2">
+            <a href="{{ route('role.edit', $role['id']) }}" class="btn btn-success mr-2">
               <i class="fas fa-pencil-alt mr-1"></i>
               Permission
             </a>
@@ -21,7 +27,7 @@
           <div class="row">
             @forelse ($permissions as $permission)
             <div class="col-md-4 col-lg-3">
-              <div class="card border role">
+              <div class="card mb-3 border role">
                 <div class="card-body d-flex align-items-center justify-content-center py-2 px-3">
                   <h6 class="mb-0 text-break text-capitalize text-center">{{ str_replace('_', ' ', $permission->name) }}</h6>
                 </div>

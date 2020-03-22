@@ -10,12 +10,14 @@
       <div class="card">
         <div class="card-header">
           <h4>Role List</h4>
+          @can('manage_role_permissions')
           <div class="card-header-form">
             <button type="button" data-toggle="modal" data-target="#addRoleModal" class="btn btn-primary">
               <i class="fas fa-plus mr-1"></i>
               Role
             </button>
           </div>
+          @endcan
         </div>
         <div class="card-body">
           <ul class="list-group">
