@@ -20,4 +20,5 @@ Route::middleware(['auth', 'role:admin'])->group(function() {
 
   Route::resource('user', 'UserController');
   Route::resource('role', 'RoleController');
+  Route::get('permissions', 'PermissionController@index')->name('permissions');
 });

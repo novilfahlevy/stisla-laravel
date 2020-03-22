@@ -20,8 +20,8 @@
       <li class="nav-item {{ route('role.index') == $currentRoute ? 'active' : null }}">
         <a href="{{ route('role.index') }}" class="nav-link"><i class="fas fa-user-tie"></i><span>Roles</span></a>
       </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link"><i class="fas fa-user-tag"></i><span>Permissions</span></a>
+      <li class="nav-item {{ route('permissions') == $currentRoute ? 'active' : null }}">
+        <a href="{{ route('permissions') }}" class="nav-link"><i class="fas fa-user-tag"></i><span>Permissions</span></a>
       </li>
     </ul>
   </aside>

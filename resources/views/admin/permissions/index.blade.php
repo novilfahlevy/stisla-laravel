@@ -1,4 +1,4 @@
-@extends('layouts.admin.app', ['title' => 'Permissions (' . $role . ')'])
+@extends('layouts.admin.app', ['title' => 'Permissions'])
 
 @section('content')
   <div class="row">
@@ -6,16 +6,6 @@
       <div class="card">
         <div class="card-header">
           <h4>Permission List</h4>
-          <div class="card-header-form">
-            <a href="#" class="btn btn-success mr-2">
-              <i class="fas fa-pencil-alt mr-1"></i>
-              Permission
-            </a>
-            <a href="{{ route('role.index') }}" class="btn btn-primary">
-              <i class="fas fa-angle-left mr-1"></i>
-              Back
-            </a>
-          </div>
         </div>
         <div class="card-body">
           <div class="row">
