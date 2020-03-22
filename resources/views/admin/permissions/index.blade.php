@@ -19,7 +19,7 @@
           </div>
           @empty
           <div class="col-12 py-5">
-            <h5 class="mb-0 text-center">Tidak ada data</h5>
+            <h5 class="mb-0 text-center">Data empty</h5>
           </div>
           @endforelse
         </div>
