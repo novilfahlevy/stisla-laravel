@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Role;
+use Spatie\Permission\Models\Role as SpatieRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -34,7 +35,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+      
     }
 
     /**
@@ -45,7 +46,16 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      if ( SpatieRole::create(['name' => strtolower($request->name)]) ) {
+        return redirect('role')->with('alert', [
+          'type' => 'success',
+          'message' => 'Role has successfully added.'
+        ]);
+      }
+      return redirect('role')->with('alert', [
+        'type' => 'danger',
+        'message' => 'Failed to add role, something went wrong.'
+      ]);
     }
 
     /**

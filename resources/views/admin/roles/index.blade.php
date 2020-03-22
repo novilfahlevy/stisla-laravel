@@ -10,6 +10,12 @@
       <div class="card">
         <div class="card-header">
           <h4>Role List</h4>
+          <div class="card-header-form">
+            <button type="button" data-toggle="modal" data-target="#addRoleModal" class="btn btn-primary">
+              <i class="fas fa-plus mr-1"></i>
+              Role
+            </button>
+          </div>
         </div>
         <div class="card-body">
           <ul class="list-group">
@@ -60,11 +66,40 @@
 </div>
 @endpush
 
+@push('modal')
+<div class="modal fade" tabindex="-1" role="dialog" id="addRoleModal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form action="{{ route('role.store') }}" method="POST" id="addRoleForm">
+        @csrf
+        <div class="modal-body pt-5 pb-0">
+          <div class="form-group">
+            <label for="name">Role Name</label>
+            <input type="text" class="form-control" name="name" id="name">
+            <p class="invalid-feedback d-block mb-0" id="roleNameError"></p>
+          </div>
+        </div>
+        <div class="modal-footer pb-3">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+@endpush
+
 @push('js')
 <script>
   $('button#deleteRoleModalButton').on('click', function() {
     const userId = $(this).data('id');
     $('form#deleteRoleForm').attr('action', `${baseURL}/role/${userId}`);
   });
+  $('form#addRoleForm').on('submit', function(e) {
+    if ( !$(this).find('input#name').val().length ) {
+      $(this).find('#roleNameError').text('The role name field is required.');
+      e.preventDefault();
+    }
+  }); 
 </script>
 @endpush
