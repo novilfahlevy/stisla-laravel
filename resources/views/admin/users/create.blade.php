@@ -30,6 +30,14 @@
               <p class="invalid-feedback d-block">{{ $message }}</p>
               @enderror
             </div>
+            <div class="form-group">
+              <label for="role">Role</label>
+              <select class="form-control" name="role" id="role">
+                @foreach ($roles as $role)
+                <option value="{{ $role }}">{{ $role }}</option>
+                @endforeach
+              </select>
+            </div>
             <div class="row">
               <div class="col-6">
                 <div class="form-group">
@@ -44,16 +52,6 @@
                 <div class="form-group">
                   <label for="password_confirmation">Confirm Password</label>
                   <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  <label for="role">Role</label>
-                  <select class="form-control" name="role" id="role">
-                    @foreach ($roles as $role)
-                    <option value="{{ $role }}">{{ $role }}</option>
-                    @endforeach
-                  </select>
                 </div>
               </div>
             </div>
