@@ -13,7 +13,7 @@
           <div class="col-md-4 col-lg-3">
             <div class="card mb-3 border role">
               <div class="card-body d-flex align-items-center justify-content-center py-2 px-3">
-                <h6 class="mb-0 text-break text-capitalize text-center">{{ str_replace('_', ' ', $permission->name) }}</h6>
+                <h6 class="mb-0 text-break text-center">{{ $permission->name }}</h6>
               </div>
             </div>
           </div>

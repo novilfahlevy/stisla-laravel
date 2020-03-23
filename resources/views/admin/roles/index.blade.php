@@ -10,7 +10,7 @@
       <div class="card">
         <div class="card-header">
           <h4>Role List</h4>
-          @can('manage_role_permissions')
+          @can('add_role')
           <div class="card-header-form">
             <button type="button" data-toggle="modal" data-target="#addRoleModal" class="btn btn-primary">
               <i class="fas fa-plus mr-1"></i>
@@ -25,14 +25,16 @@
             <li class="list-group-item d-flex align-items-center justify-content-between">
               <h6 class="mb-0">{{ $role->name }}</h6>
               <div>
-                @can('manage_role_permissions')
+                @can('see_role_permissions')
                 <a href="{{ route('role.show', $role->id) }}" class="btn btn-sm btn-success mr-1">
                   Permission
                 </a>
                 @endcan
+                @can('delete_role')
                 <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteRoleModal" id="deleteRoleModalButton" data-id="{{ $role->id }}">
                   Delete
                 </button>
+                @endcan
               </div>
             </li>
             @endforeach

@@ -24,7 +24,7 @@
             <div class="col-md-4 col-lg-3">
               <div class="card mb-3 border role selectable {{ !$permission->isCurrentPermission ?: 'bg-info is-selected' }}" style="cursor: pointer" data-permission="{{ $permission->name }}">
                 <div class="card-body d-flex align-items-center justify-content-center py-2 px-3">
-                  <h6 class="mb-0 text-break text-capitalize text-center" style="user-select: none">{{ str_replace('_', ' ', $permission->name) }}</h6>
+                  <h6 class="mb-0 text-break text-center" style="user-select: none">{{ $permission->name }}</h6>
                 </div>
               </div>
             </div>
@@ -34,10 +34,9 @@
               </div>
             @endforelse
             <div class="col-12">
-              <form action="{{ route('setRolePermissions') }}" method="POST">
-                @csrf
+              <form action="{{ route('role.update', $role['id']) }}" method="POST">
+                @csrf @method('put')
                 <input type="hidden" name="permissions" id="permissions" value="{{ $currentPermissions }}">
-                <input type="hidden" name="role" id="role" value="{{ $role['id'] }}">
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>

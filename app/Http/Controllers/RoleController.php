@@ -10,14 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
-  public function __construct()
-  {
-    $this->middleware(function($request, $next) {
-      $this->authorizePermissions('manage_role');
-      return $next($request);
-    });
-  }
-  
   /**
    * Display a listing of the resource.
    *
@@ -25,6 +17,7 @@ class RoleController extends Controller
    */
   public function index()
   {
+    $this->authorizePermissions('see_roles');
     $roles = Role::all();
     return view('admin.roles.index', compact('roles'));
   }
@@ -47,6 +40,8 @@ class RoleController extends Controller
    */
   public function store(Request $request)
   {
+    $this->authorizePermissions('add_role');
+
     if ( SpatieRole::create(['name' => strtolower($request->name)]) ) {
       return redirect('role')->with('alert', [
         'type' => 'success',
@@ -67,6 +62,8 @@ class RoleController extends Controller
    */
   public function show($id)
   {
+    $this->authorizePermissions('see_role_permissions');
+
     $role = Role::find($id)->only(['id', 'name']);
     $permissions = DB::table('role_has_permissions')
       ->join('permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
@@ -83,6 +80,8 @@ class RoleController extends Controller
    */
   public function edit($id)
   {
+    $this->authorizePermissions('manage_role_permissions');
+
     $role = Role::find($id)->only(['id', 'name']);
 
     $permissions = Permission::select([
@@ -111,7 +110,12 @@ class RoleController extends Controller
    */
   public function update(Request $request, $id)
   {
-      //
+    $this->authorizePermissions('manage_role_permissions');
+    SpatieRole::find($id)->syncPermissions(json_decode($request->permissions));
+    return redirect(route('role.show', $id))->with('alert', [
+      'type' => 'success',
+      'message' => 'Role permissions have successfully managed.'
+    ]);
   }
 
   /**
@@ -122,6 +126,8 @@ class RoleController extends Controller
    */
   public function destroy($id)
   {
+    $this->authorizePermissions('delete_role');
+
     if ( Role::where('id', $id)->delete() ) {
       return redirect('role')->with('alert', [
         'type' => 'success',
@@ -132,15 +138,6 @@ class RoleController extends Controller
     return redirect('role')->with('alert', [
       'type' => 'danger',
       'message' => 'Failed to delete role, something went wrong.'
-    ]);
-  }
-
-  public function setPermissions(Request $request) {
-    $this->authorizePermissions('manage_role_permissions');
-    SpatieRole::find($request->role)->syncPermissions(json_decode($request->permissions));
-    return redirect(route('role.show', $request->role))->with('alert', [
-      'type' => 'success',
-      'message' => 'Role permissions have successfully managed.'
     ]);
   }
 }

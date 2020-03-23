@@ -20,6 +20,6 @@ Route::middleware(['auth', 'role:admin'])->group(function() {
 
   Route::resource('user', 'UserController');
   Route::resource('role', 'RoleController');
-  Route::post('role/permissions', 'RoleController@setPermissions')->name('setRolePermissions');
+  
   Route::get('permissions', 'PermissionController@index')->name('permissions');
 });
