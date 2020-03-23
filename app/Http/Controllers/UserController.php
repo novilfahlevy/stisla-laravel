@@ -32,7 +32,8 @@ class UserController extends Controller
     public function create()
     {
       $this->authorizePermissions('add_user');
-      return view('admin.users.create');
+      $roles = Role::all()->pluck('name');
+      return view('admin.users.create', compact('roles'));
     }
     
     /**
@@ -49,7 +50,7 @@ class UserController extends Controller
       $data['password'] = Hash::make($data['password']);
 
       if ( $user = User::create($data) ) {
-        $user->assignRole('user');
+        $user->assignRole($request->role);
         
         return redirect('user')->with('alert', [
           'type' => 'success',
@@ -104,7 +105,7 @@ class UserController extends Controller
       $this->authorizePermissions('edit_user');
 
       if ( User::where('id', $id)->update($request->except(['_method', '_token', 'role'])) ) {
-        User::find($id)->assignRole($request->role);
+        User::find($id)->syncRoles($request->role);
         return redirect('user')->with('alert', [
           'type' => 'success',
           'message' => 'User data has successfully updated.'

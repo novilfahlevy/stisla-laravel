@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Permission;
 use App\Role;
+use App\User;
 use Spatie\Permission\Models\Role as SpatieRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -127,6 +128,8 @@ class RoleController extends Controller
   public function destroy($id)
   {
     $this->authorizePermissions('delete_role');
+
+    DB::table('model_has_roles')->where('role_id', $id)->update(['role_id' => 2]);
 
     if ( Role::where('id', $id)->delete() ) {
       return redirect('role')->with('alert', [
