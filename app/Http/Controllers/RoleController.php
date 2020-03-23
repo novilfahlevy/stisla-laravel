@@ -111,11 +111,16 @@ class RoleController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $this->authorizePermissions('manage_role_permissions');
-    SpatieRole::find($id)->syncPermissions(json_decode($request->permissions));
-    return redirect(route('role.show', $id))->with('alert', [
-      'type' => 'success',
-      'message' => 'Role permissions have successfully managed.'
+    if ( Role::where('id', $id)->update(['name' => strtolower($request->name)]) ) {
+      return redirect('role')->with('alert', [
+        'type' => 'success',
+        'message' => 'Role name has successfully changed.'
+      ]);
+    }
+
+    return redirect('role')->with('alert', [
+      'type' => 'danger',
+      'message' => 'Failed to change role name, something went wrong.'
     ]);
   }
 
@@ -141,6 +146,16 @@ class RoleController extends Controller
     return redirect('role')->with('alert', [
       'type' => 'danger',
       'message' => 'Failed to delete role, something went wrong.'
+    ]);
+  }
+
+  public function setPermissions(Request $request, $id) {
+    $this->authorizePermissions('manage_role_permissions');
+
+    SpatieRole::find($id)->syncPermissions(json_decode($request->permissions));
+    return redirect(route('role.show', $id))->with('alert', [
+      'type' => 'success',
+      'message' => 'Role permissions have successfully managed.'
     ]);
   }
 }

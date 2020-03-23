@@ -34,7 +34,7 @@
               </div>
             @endforelse
             <div class="col-12">
-              <form action="{{ route('role.update', $role['id']) }}" method="POST">
+              <form action="{{ route('setRolePermissions', $role['id']) }}" method="POST">
                 @csrf @method('put')
                 <input type="hidden" name="permissions" id="permissions" value="{{ $currentPermissions }}">
                 <button type="submit" class="btn btn-primary">Submit</button>

@@ -26,10 +26,13 @@
               <h6 class="mb-0">{{ $role->name }}</h6>
               <div>
                 @can('see_role_permissions')
-                <a href="{{ route('role.show', $role->id) }}" class="btn btn-sm btn-success mr-1">
+                <a href="{{ route('role.show', $role->id) }}" class="btn btn-sm btn-warning mr-1">
                   Permission
                 </a>
                 @endcan
+                <button type="button" class="btn btn-sm btn-success mr-1" data-toggle="modal" data-target="#EditRoleModal" id="EditRoleModalButton" data-id="{{ $role->id }}" data-role="{{ $role->name }}">
+                  Edit
+                </button>
                 @can('delete_role')
                 <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteRoleModal" id="deleteRoleModalButton" data-id="{{ $role->id }}">
                   Delete
@@ -71,6 +74,29 @@
 @endpush
 
 @push('modal')
+<div class="modal fade" tabindex="-1" role="dialog" id="editRoleModal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form action="#" method="POST" id="editRoleForm">
+        @csrf @method('put')
+        <div class="modal-body pt-5 pb-0">
+          <div class="form-group">
+            <label for="name">Role Name</label>
+            <input type="text" class="form-control" name="name" id="name">
+            <p class="invalid-feedback d-block mb-0" id="editRoleNameError"></p>
+          </div>
+        </div>
+        <div class="modal-footer pb-3 pt-0">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+@endpush
+
+@push('modal')
 <div class="modal fade" tabindex="-1" role="dialog" id="addRoleModal">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -80,10 +106,10 @@
           <div class="form-group">
             <label for="name">Role Name</label>
             <input type="text" class="form-control" name="name" id="name">
-            <p class="invalid-feedback d-block mb-0" id="roleNameError"></p>
+            <p class="invalid-feedback d-block mb-0" id="addRoleNameError"></p>
           </div>
         </div>
-        <div class="modal-footer pb-3">
+        <div class="modal-footer pb-3 pt-0">
           <button type="submit" class="btn btn-primary">Submit</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
@@ -99,9 +125,23 @@
     const userId = $(this).data('id');
     $('form#deleteRoleForm').attr('action', `${baseURL}/role/${userId}`);
   });
+
   $('form#addRoleForm').on('submit', function(e) {
     if ( !$(this).find('input#name').val().length ) {
-      $(this).find('#roleNameError').text('The role name field is required.');
+      $(this).find('#addRoleNameError').text('The role name field is required.');
+      e.preventDefault();
+    }
+  }); 
+
+  $('button#editRoleModalButton').on('click', function() {
+    const roleId = $(this).data('id');
+    $('form#editRoleForm').attr('action', `${baseURL}/role/${roleId}`);
+    $('form#editRoleForm').find('input#name').val($(this).data('role'));
+  });
+
+  $('form#editRoleForm').on('submit', function(e) {
+    if ( !$(this).find('input#name').val().length ) {
+      $(this).find('#editRoleNameError').text('The role name field is required.');
       e.preventDefault();
     }
   }); 

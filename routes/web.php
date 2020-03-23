@@ -22,4 +22,5 @@ Route::middleware(['auth', 'role:admin'])->group(function() {
   Route::resource('role', 'RoleController');
   
   Route::get('permissions', 'PermissionController@index')->name('permissions');
+  Route::put('role/permissions/{id}', 'RoleController@setPermissions')->name('setRolePermissions');
 });
