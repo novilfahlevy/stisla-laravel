@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('/', function() {
+  return redirect('dashboard');
+});
+
+// Admin
 Route::middleware(['auth', 'role:admin'])->group(function() {
   Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
@@ -23,4 +28,11 @@ Route::middleware(['auth', 'role:admin'])->group(function() {
   
   Route::get('permissions', 'PermissionController@index')->name('permissions');
   Route::put('role/permissions/{id}', 'RoleController@setPermissions')->name('setRolePermissions');
+});
+
+// All Roles
+Route::middleware(['auth'])->group(function() {
+  Route::get('profile', 'UserController@profile')->name('profile');
+  Route::post('profile', 'UserController@changeProfile')->name('changeProfile');
+  Route::post('profile/image', 'UserController@changeProfileImage')->name('changeProfileImage');
 });

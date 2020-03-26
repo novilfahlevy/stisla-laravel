@@ -4,14 +4,14 @@
       <img alt="image" src="{{ asset('img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
       <div class="d-sm-none d-lg-inline-block">Hi, {{ auth()->user()->name }}</div></a>
       <div class="dropdown-menu dropdown-menu-right">
-        <a href="features-profile.html" class="dropdown-item has-icon">
+        <a href="{{ route('profile') }}" class="dropdown-item has-icon">
           <i class="far fa-user"></i> Profile
         </a>
         <div class="dropdown-divider"></div>
         <form action="{{ route('logout') }}" method="POST" class="d-none" id="logout">
           @csrf
         </form>
-        <a href="#" onclick="event.preventDefault(); document.getElementById('logout').submit();" class="dropdown-item has-icon text-danger">
+        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout').submit();" class="dropdown-item has-icon text-danger">
           <i class="fas fa-sign-out-alt"></i> Logout
         </a>
       </div>

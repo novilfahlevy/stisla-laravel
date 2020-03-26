@@ -3,10 +3,7 @@
 @section('content')
 <div class="row">
   <div class="col-12">
-    @if (request()->session()->has('alert'))
-      @php $alert = request()->session()->get('alert') @endphp
-      <x-alert :type="$alert['type']" :message="$alert['message']" />
-    @endif
+    @include('partials.alert')
     <div class="card">
       <div class="card-header">
         <h4>User List</h4>
@@ -20,7 +17,7 @@
         @endcan
       </div>
       <div class="card-body">
-        <table class="table">
+        <table class="table datatable">
           <thead>
             <tr>
               <th scope="col">#</th>

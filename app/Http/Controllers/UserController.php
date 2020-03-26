@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\AddRequest;
 use App\Http\Requests\User\EditRequest;
+use App\Http\Requests\User\ChangeProfileRequest;
 use App\Role;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request as BaseRequest;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 
@@ -139,5 +140,30 @@ class UserController extends Controller
         'type' => 'danger',
         'message' => 'Failed to delete user, something went wrong.'
       ]);
+    }
+
+    public function profile() {
+      $user = auth()->user();
+      return view('admin.users.profile', compact('user'));
+    }
+
+    public function changeProfile(ChangeProfileRequest $request) {
+      $id = auth()->user()->id;
+
+      if ( User::where('id', $id)->update($request->only('name', 'email')) ) {
+        return redirect('profile')->with('alert', [
+          'type' => 'success',
+          'message' => 'Profile successfully updated.'
+        ]);
+      } 
+
+      return redirect('profile')->with('alert', [
+        'type' => 'danger',
+        'message' => 'Failed to update profile, something went wrong.'
+      ]);
+    }
+
+    public function changeProfileImage(BaseRequest $request) {
+      dd($request->file('image'));
     }
 }
