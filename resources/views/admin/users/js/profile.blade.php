@@ -1,36 +1,26 @@
-@include('admin.users.profile_dropzone')
 <script>
-  Dropzone.autoDiscover = false;  
-  $('div#imageProfile').dropzone({
-    url: '{{ $url }}',
-    method: 'PUT',
-    paramName: 'image',
-    addRemoveLinks: true,
-    dictRemoveFileConfirmation: 'Remove this file?',
-    previewTemplate: $('#profileDropzoneTemplate').html(),
-    resizeWidth: 500,
-    resizeHeight: 500,
-    maxFilesize: 2,
-    acceptedFiles: 'image/*',
-    headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-      'X-Requested-With': 'XMLHttpRequest'
-    },
-    withCredentials: true,
-    init: function() {
-      this.on("addedfile", function() {
-        this.files.length > 1 && this.removeFile(this.files[0]);
-      });
-    },
-    accept: function(file, done) {
-      setTimeout(() => {
-        if ( file.width > 500 || file.height > 500 ) {
-          alert('Image size should 500 x 500');
-          this.removeFile(this.files[0]);
-          return;
-        }
-        $('.dz-details.dz-image-preview').last().find('img.dz-image').attr('src', file.dataURL);
-      }, 1000);
-    }
+  const imageDropArea = $('div#profileImage');
+  const inputImage = imageDropArea.parent().find('input#image');
+
+  inputImage.on('change', function(e) {
+    const imageBLOB = URL.createObjectURL(e.target.files[0]);
+    imageDropArea.html(`<label class="m-0" for="image">
+        <img alt="image" src="${imageBLOB}" class="rounded-circle ml-0 shadow" style="width: 200px; height: 200px; background-size: cover">
+        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 right-0 rounded-circle" style="width: 30px; height: 30px">
+          <i class="fas fa-times" id="removeProfileImage"></i>
+        </button>
+      </label>
+    `);
   });
+
+  imageDropArea.on('click', function(e) {
+    if ( e.target.id == 'removeProfileImage' ) {
+      inputImage.val('');
+      $(this).html(`<label class="m-0 pt-3 text-break" for="image">
+          <h6 class="mb-0">Select your profile image</h6>
+          <p class="mb-0 text-center">500 &times; 500</p>
+        </label>
+      `);
+    }
+  });  
 </script>

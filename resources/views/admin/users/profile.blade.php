@@ -4,31 +4,12 @@
 <div class="row">
   <div class="col-12">
     <div class="row mt-sm-4">
-      <div class="col-12 col-md-12 col-lg-5">
-        <div class="card profile-widget">
-          <div class="profile-widget-header d-flex justify-content-center">
-            <img alt="image" src="{{ asset('img/avatar/avatar-1.png') }}" class="rounded-circle profile-widget-picture ml-0 mb-5 mb-lg-3 shadow">
-          </div>
-          <div class="profile-widget-description p-0">
-            <form action="{{ route('changeProfileImage') }}" method="POST" class="dropzone" id="imageProfile" enctype="multipart/form-data">
-              @csrf @method('put')
-              <div class="dz-message mx-0">
-                <h5>Select profile image</h5>
-                <p class="mb-0 small">500 &times; 500</p>
-              </div>
-            </form>
-          </div>
-          <div class="card-footer text-center">
-            <button type="button" class="btn btn-primary" onclick="document.getElementById('imageProfile').submit();">Save Change</button>
-          </div>
-        </div>
-      </div>
       <div class="col-12 col-md-12 col-lg-7">
         <div class="card">
           <form action="{{ route('changeProfile') }}" method="post">
             @csrf
             <div class="card-header">
-              <h4>Edit Profile</h4>
+              <h4>Edit Profile Info</h4>
             </div>
             <div class="card-body">
               @include('partials.alert')
@@ -59,11 +40,51 @@
           </form>
         </div>
       </div>
+      <div class="col-12 col-md-12 col-lg-5">
+        <div class="card profile-widget mt-0">
+          <div class="card-header">
+            <h4>Edit Profile Image</h4>
+          </div>
+          <div class="card-body d-flex justify-content-center">
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center">
+                <img alt="image" src="{{ asset('img/avatar/avatar-1.png') }}" class="rounded-circle ml-0 shadow" style="width: 150px; height: 150px; background-size: cover">
+              </div>
+              <div class="col-12 py-0">
+                <hr class="my-4">
+              </div>
+              <div class="col-12 d-flex justify-content-center">
+                <div class="rounded-circle d-flex justify-content-center align-items-center" style="width: 200px; height: 200px; border: 2px dashed #6777ef">
+                  <form action="{{ route('changeProfileImage') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div id="profileImage">
+                      {{-- <label class="m-0 position-relative" for="image">
+                        <img alt="image" src="{{ asset('img/avatar/avatar-1.png') }}" class="rounded-circle ml-0 shadow" style="width: 200px; height: 200px; background-size: cover">
+                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 right-0 rounded-circle" id="removeProfileImage" style="width: 30px; height: 30px">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </label> --}}
+                      <label class="m-0 pt-3 text-break" for="image">
+                        <h6 class="mb-0">Select your profile image</h6>
+                        <p class="mb-0 text-center">500 &times; 500</p>
+                      </label>
+                    </div>
+                    <input type="file" name="image" class="d-none" id="image">
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('profileImage').parentElement.submit();">Save Change</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 @endsection
 
 @push('js')
-@include('admin.users.js.profile', ['url' => route('changeProfileImage')])
+@include('admin.users.js.profile')
 @endpush
