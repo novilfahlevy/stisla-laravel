@@ -190,7 +190,7 @@ class UserController extends Controller
 
         if ( $path && User::where('id', auth()->user()->id)->update(['image' => $imageName]) ) {
           return redirect()->route('profile')->with('alert', [
-            'type' => 'info',
+            'type' => 'success',
             'message' => 'Successfully change profile image.'
           ]);
         }

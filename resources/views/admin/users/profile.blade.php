@@ -55,16 +55,16 @@
                   <hr class="my-4">
                 </div>
                 <div class="col-12 d-flex justify-content-center">
-                  <div class="rounded-circle d-flex justify-content-center align-items-center" style="width: 200px; height: 200px; border: 2px dashed #6777ef">
+                  <label class="rounded-circle d-flex justify-content-center align-items-center" style="width: 200px; height: 200px; border: 2px dashed #6777ef; cursor: pointer" id="profileImage" for="image">
                     @csrf
-                    <div id="profileImage">
-                      <label class="m-0 pt-3 text-break" for="image">
+                    <div id="dropArea">
+                      <div class="m-0 pt-3 text-break">
                         <h6 class="mb-0">Select your profile image</h6>
                         <p class="mb-0 text-center">500 &times; 500</p>
-                      </label>
+                      </div>
                     </div>
                     <input type="file" name="image" class="d-none" id="image">
-                  </div>
+                  </label>
                 </div>
               </div>
             </div>

@@ -1,5 +1,5 @@
 <script>
-  const imageDropArea = $('div#profileImage');
+  const imageDropArea = $('label#profileImage').find('div#dropArea');
   const inputImage = imageDropArea.parent().find('input#image');
 
   inputImage.on('change', function(e) {
@@ -31,10 +31,10 @@
   imageDropArea.on('click', function(e) {
     if ( e.target.tagName == 'BUTTON' || e.target.tagName == 'I' ) {
       inputImage.val('');
-      $(this).html(`<label class="m-0 pt-3 text-break" for="image">
+      $(this).html(`<div class="m-0 pt-3 text-break">
           <h6 class="mb-0">Select your profile image</h6>
           <p class="mb-0 text-center">500 &times; 500</p>
-        </label>
+        </div>
       `);
     }
   });  
