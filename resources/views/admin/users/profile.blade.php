@@ -3,6 +3,7 @@
 @section('content')
 <div class="row">
   <div class="col-12">
+    @include('partials.alert')
     <div class="row mt-sm-4">
       <div class="col-12 col-md-12 col-lg-7">
         <div class="card">
@@ -12,7 +13,6 @@
               <h4>Edit Profile Info</h4>
             </div>
             <div class="card-body">
-              @include('partials.alert')
               <div class="row">
                 <div class="form-group col-12">
                   <label for="name">Name</label>
@@ -45,39 +45,33 @@
           <div class="card-header">
             <h4>Edit Profile Image</h4>
           </div>
-          <div class="card-body d-flex justify-content-center">
-            <div class="row">
-              <div class="col-12 d-flex justify-content-center">
-                <img alt="image" src="{{ asset('img/avatar/avatar-1.png') }}" class="rounded-circle ml-0 shadow" style="width: 150px; height: 150px; background-size: cover">
-              </div>
-              <div class="col-12 py-0">
-                <hr class="my-4">
-              </div>
-              <div class="col-12 d-flex justify-content-center">
-                <div class="rounded-circle d-flex justify-content-center align-items-center" style="width: 200px; height: 200px; border: 2px dashed #6777ef">
-                  <form action="{{ route('changeProfileImage') }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('changeProfileImage') }}" method="POST" enctype="multipart/form-data" id="changeProfileImageForm">
+            <div class="card-body d-flex justify-content-center">
+              <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                  <img alt="image" src="{{ asset('storage/img/profile/' . $user->image) }}" class="rounded-circle ml-0 shadow" style="width: 150px; height: 150px; background-size: cover">
+                </div>
+                <div class="col-12 py-0">
+                  <hr class="my-4">
+                </div>
+                <div class="col-12 d-flex justify-content-center">
+                  <div class="rounded-circle d-flex justify-content-center align-items-center" style="width: 200px; height: 200px; border: 2px dashed #6777ef">
                     @csrf
                     <div id="profileImage">
-                      {{-- <label class="m-0 position-relative" for="image">
-                        <img alt="image" src="{{ asset('img/avatar/avatar-1.png') }}" class="rounded-circle ml-0 shadow" style="width: 200px; height: 200px; background-size: cover">
-                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 right-0 rounded-circle" id="removeProfileImage" style="width: 30px; height: 30px">
-                          <i class="fas fa-times"></i>
-                        </button>
-                      </label> --}}
                       <label class="m-0 pt-3 text-break" for="image">
                         <h6 class="mb-0">Select your profile image</h6>
                         <p class="mb-0 text-center">500 &times; 500</p>
                       </label>
                     </div>
                     <input type="file" name="image" class="d-none" id="image">
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="card-footer text-center">
-            <button type="button" class="btn btn-primary" onclick="document.getElementById('profileImage').parentElement.submit();">Save Change</button>
-          </div>
+            <div class="card-footer text-center">
+              <button type="submit" class="btn btn-primary">Save Change</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

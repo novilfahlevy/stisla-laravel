@@ -9,6 +9,8 @@ use App\Role;
 use Illuminate\Http\Request as BaseRequest;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -164,6 +166,31 @@ class UserController extends Controller
     }
 
     public function changeProfileImage(BaseRequest $request) {
-      dd($request->file('image'));
+      $image = $request->file('image');
+      
+      if ( $image ) {
+        $user = User::find(auth()->user()->id);
+
+        if ( $user->image != 'default.png' ) {
+          Storage::delete('public/img/profile/' . $user->image);
+        }
+
+        $extension = $image->extension();
+        $imageName = Str::random(32) . '.' . $extension;
+        
+        $path = $image->storeAs('public/img/profile', $imageName);
+
+        if ( $path && User::where('id', auth()->user()->id)->update(['image' => $imageName]) ) {
+          return redirect()->route('profile')->with('alert', [
+            'type' => 'success',
+            'message' => 'Successfully change profile image'
+          ]);
+        }
+      }
+
+      return redirect()->route('profile')->with('alert', [
+        'type' => 'danger',
+        'message' => 'Failed to change profile image, something went wrong'
+      ]);
     }
 }
