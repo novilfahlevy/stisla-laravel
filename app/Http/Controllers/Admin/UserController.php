@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use App\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class UserController extends Controller
 {
@@ -187,9 +188,16 @@ class UserController extends Controller
       }
 
       $imageName = Str::random(32) . '.' . $extension;
-      $path = $image->storeAs('public/img/profile', $imageName);
+      $invertentionImage = Image::make($image->getRealPath());
+      $dimension = Image::make($image);
+      
+      if ( $dimension->width() > 500 || $dimension->height() > 500 ) {
+        $invertentionImage->resize(500, 500);
+      }
 
-      if ( $path && User::where('id', auth()->user()->id)->update(['image' => $imageName]) ) {
+      $result = $invertentionImage->save(public_path('storage/img/profile/' . $imageName));
+
+      if ( $result && User::where('id', auth()->user()->id)->update(['image' => $imageName]) ) {
         return redirect()->route('profile')->with('alert', [
           'type' => 'success',
           'message' => 'Successfully change profile image.'
