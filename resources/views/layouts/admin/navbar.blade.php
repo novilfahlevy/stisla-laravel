@@ -2,12 +2,12 @@
 <nav class="navbar navbar-expand-lg main-navbar d-flex justify-content-end">
   <ul class="navbar-nav">
     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-      <img alt="image" src="{{ asset('storage/img/profile/' . $user->image) }}" class="rounded-circle mr-1">
+      <img alt="image" src="{{ asset('storage/img/profile/' . $user->image) }}" class="rounded-circle mr-1" style="background-size: cover; width: 30px; height: 30px">
       <div class="d-sm-none d-lg-inline-block">Hi, {{ $user->name }}</div></a>
       <div class="dropdown-menu dropdown-menu-right">
         <a href="{{ route('profile') }}" class="dropdown-item has-icon">
           <i class="far fa-user"></i> Profile
-        </a>
+        </a> 
         <div class="dropdown-divider"></div>
         <form action="{{ route('logout') }}" method="POST" class="d-none" id="logout">
           @csrf

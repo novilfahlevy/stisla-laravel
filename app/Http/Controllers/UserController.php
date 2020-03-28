@@ -170,14 +170,21 @@ class UserController extends Controller
       
       if ( $image ) {
         $user = User::find(auth()->user()->id);
+        $imageTypes = ['jpg', 'png', 'jpeg'];
+        $extension = $image->extension();
+
+        if ( !in_array($extension, $imageTypes) ) {
+          return redirect()->route('profile')->with('alert', [
+            'type' => 'danger',
+            'message' => 'Your file was not an image'
+          ]);
+        }
 
         if ( $user->image != 'default.png' ) {
           Storage::delete('public/img/profile/' . $user->image);
         }
 
-        $extension = $image->extension();
         $imageName = Str::random(32) . '.' . $extension;
-        
         $path = $image->storeAs('public/img/profile', $imageName);
 
         if ( $path && User::where('id', auth()->user()->id)->update(['image' => $imageName]) ) {
