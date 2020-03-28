@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\User\AddRequest;
 use App\Http\Requests\User\EditRequest;
 use App\Http\Requests\User\ChangeProfileRequest;
@@ -176,7 +177,7 @@ class UserController extends Controller
         if ( !in_array($extension, $imageTypes) ) {
           return redirect()->route('profile')->with('alert', [
             'type' => 'danger',
-            'message' => 'Your file was not an image'
+            'message' => 'Your file was not an image.'
           ]);
         }
 
@@ -189,15 +190,15 @@ class UserController extends Controller
 
         if ( $path && User::where('id', auth()->user()->id)->update(['image' => $imageName]) ) {
           return redirect()->route('profile')->with('alert', [
-            'type' => 'success',
-            'message' => 'Successfully change profile image'
+            'type' => 'info',
+            'message' => 'Successfully change profile image.'
           ]);
         }
       }
 
       return redirect()->route('profile')->with('alert', [
         'type' => 'danger',
-        'message' => 'Failed to change profile image, something went wrong'
+        'message' => 'Failed to change profile image, something went wrong.'
       ]);
     }
 }

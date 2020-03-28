@@ -21,18 +21,18 @@ Route::get('/', function() {
 
 // Admin
 Route::middleware(['auth', 'role:admin'])->group(function() {
-  Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+  Route::get('dashboard', 'Admin\DashboardController@index')->name('dashboard');
 
-  Route::resource('user', 'UserController');
-  Route::resource('role', 'RoleController');
+  Route::resource('user', 'Admin\UserController');
+  Route::resource('role', 'Admin\RoleController');
   
-  Route::get('permissions', 'PermissionController@index')->name('permissions');
-  Route::put('role/permissions/{id}', 'RoleController@setPermissions')->name('setRolePermissions');
+  Route::get('permissions', 'Admin\PermissionController@index')->name('permissions');
+  Route::put('role/permissions/{id}', 'Admin\RoleController@setPermissions')->name('setRolePermissions');
 });
 
 // All Roles
 Route::middleware(['auth'])->group(function() {
-  Route::get('profile', 'UserController@profile')->name('profile');
-  Route::post('profile', 'UserController@changeProfile')->name('changeProfile');
-  Route::post('profile/image', 'UserController@changeProfileImage')->name('changeProfileImage');
+  Route::get('profile', 'Admin\UserController@profile')->name('profile');
+  Route::post('profile', 'Admin\UserController@changeProfile')->name('changeProfile');
+  Route::post('profile/image', 'Admin\UserController@changeProfileImage')->name('changeProfileImage');
 });
