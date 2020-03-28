@@ -5,42 +5,90 @@
   <div class="col-12">
     @include('partials.alert')
     <div class="row mt-sm-4">
-      <div class="col-12 col-md-12 col-lg-7">
-        <div class="card">
-          <form action="{{ route('changeProfile') }}" method="post">
-            @csrf
-            <div class="card-header">
-              <h4>Edit Profile Info</h4>
+      <div class="col-12 col-lg-7 order-2 order-lg-1">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <form action="{{ route('changeProfile') }}" method="post">
+                @csrf
+                <div class="card-header">
+                  <h4>Edit Profile Info</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-12">
+                      <label for="name">Name</label>
+                      <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" value="{{ $user->name }}">
+                      @error('name')
+                      <span class="invalid-feedback d-block" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                      @enderror
+                    </div>
+                    <div class="form-group mb-0 col-12">
+                      <label for="email">Email</label>
+                      <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ $user->email }}">
+                      @error('email')
+                      <span class="invalid-feedback d-block" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                      @enderror
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer text-right">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form>
             </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="form-group col-12">
-                  <label for="name">Name</label>
-                  <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" value="{{ $user->name }}">
-                  @error('name')
-                  <span class="invalid-feedback d-block" role="alert">
-                    <strong>{{ $message }}</strong>
-                  </span>
-                  @enderror
-                </div>
-                <div class="form-group mb-0 col-12">
-                  <label for="email">Email</label>
-                  <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ $user->email }}">
-                  @error('email')
-                  <span class="invalid-feedback d-block" role="alert">
-                    <strong>{{ $message }}</strong>
-                  </span>
-                  @enderror
-                </div>
+          </div>
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h4>Change Password</h4>
               </div>
+              <form action="{{ route('changePassword') }}" method="POST">
+                @csrf @method('put')
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-12">
+                      <label for="oldPassword">Old Password</label>
+                      <input type="password" class="form-control @error('oldPassword') is-invalid @enderror" name="oldPassword" id="password">
+                      @error('oldPassword')
+                      <span class="invalid-feedback d-block" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                      @enderror
+                      @if( request()->session()->has('error') )
+                      <span class="invalid-feedback d-block" role="alert">
+                        <strong>{{ request()->session()->get('error') }}</strong>
+                      </span>
+                      @endif
+                    </div>
+                    <div class="form-group col-12">
+                      <label for="password">New Password</label>
+                      <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password">
+                      @error('password')
+                      <span class="invalid-feedback d-block" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                      @enderror
+                    </div>
+                    <div class="form-group mb-0 col-12">
+                      <label for="password_confirmation">Confirm Password</label>
+                      <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer text-right">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form>
             </div>
-            <div class="card-footer text-right">
-              <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
-      <div class="col-12 col-md-12 col-lg-5">
+      <div class="col-12 col-lg-5 order-1 order-lg-2">
         <div class="card profile-widget mt-0">
           <div class="card-header">
             <h4>Edit Profile Image</h4>
@@ -73,7 +121,7 @@
             </div>
           </form>
         </div>
-      </div>
+      <div>
     </div>
   </div>
 </div>
