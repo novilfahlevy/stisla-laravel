@@ -27,7 +27,7 @@
                   Permission
                 </a>
                 @endcan
-                <button type="button" class="btn btn-sm btn-success mr-1" data-toggle="modal" data-target="#EditRoleModal" id="EditRoleModalButton" data-id="{{ $role->id }}" data-role="{{ $role->name }}">
+                <button type="button" class="btn btn-sm btn-success mr-1" data-toggle="modal" data-target="#editRoleModal" id="editRoleModalButton" data-id="{{ $role->id }}" data-role="{{ $role->name }}">
                   Edit
                 </button>
                 @can('delete_role')
