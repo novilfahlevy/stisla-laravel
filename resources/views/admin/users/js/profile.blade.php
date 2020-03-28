@@ -29,6 +29,7 @@
   });
 
   imageDropArea.on('click', function(e) {
+    e.preventDefault();
     if ( e.target.tagName == 'BUTTON' || e.target.tagName == 'I' ) {
       inputImage.val('');
       $(this).html(`<div class="m-0 pt-3 text-break">
