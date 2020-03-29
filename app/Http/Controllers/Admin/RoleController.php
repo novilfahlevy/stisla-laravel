@@ -135,8 +135,6 @@ class RoleController extends Controller
   {
     $this->authorizePermissions('delete_role');
 
-    DB::table('model_has_roles')->where('role_id', $id)->update(['role_id' => 2]);
-
     if ( Role::where('id', $id)->delete() ) {
       return redirect('role')->with('alert', [
         'type' => 'success',

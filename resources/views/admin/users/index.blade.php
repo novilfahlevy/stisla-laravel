@@ -48,7 +48,7 @@
                   </a>
                   @endcan
                   @can('delete_user')
-                  <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" id="deleteModalButton" data-id="{{ $user->id }}">
+                  <button type="button" class="btn btn-sm btn-danger" id="deleteModalButton" data-id="{{ $user->id }}">
                     Delete
                   </button>
                   @endcan
@@ -61,38 +61,21 @@
     </div>
   </div>
 </div>
-@endsection
 
-@push('modal')
-<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <form action="#" method="POST" id="deleteUserForm">
-        @csrf @method('delete')
-        <div class="modal-body pt-5">
-          <h5 class="mb-0 text-center">Are you sure you want to delete this user?</h5>
-        </div>
-        <div class="modal-footer py-3">
-          <div class="row w-100">
-            <div class="col-6">
-              <button type="submit" class="btn btn-danger w-100">Delete</button>
-            </div>
-            <div class="col-6">
-              <button type="button" class="btn btn-secondary w-100" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-@endpush
+<form action="#" method="POST" class="d-none" id="deleteUserForm">
+  @csrf @method('delete')
+</form>
+@endsection
 
 @push('js')
 <script>
   $('button#deleteModalButton').on('click', function() {
     const userId = $(this).data('id');
-    $('form#deleteUserForm').attr('action', `${baseURL}/user/${userId}`);
+    const form = $('form#deleteUserForm');
+
+    form.attr('action', `${baseURL}/user/${userId}`);
+
+    swalDelete(result => result && form.submit());
   });
 </script>
 @endpush
