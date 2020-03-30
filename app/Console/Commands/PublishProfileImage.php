@@ -56,13 +56,21 @@ class PublishProfileImage extends Command
       if ( Storage::disk('public')->exists('img/profile') ) {
         $avatar = $this->argument('avatar');
         $imgPath = public_path('img/avatar/avatar-' . $avatar . '.png');
-        
+
         if ( File::isFile($imgPath) ) {
           $imgPathToStorage = storage_path('app/public/img/profile/default.png');
           $imageHasCopied = File::copy($imgPath, $imgPathToStorage);
 
           if ( $imageHasCopied ) {
-            Image::make($imgPathToStorage)->resize(500, 500);
+            $invertentionImage = Image::make($imgPathToStorage);
+
+            if ( $invertentionImage->width() > 500 ) {
+              $invertentionImage->resize(500, null);
+            }
+      
+            if ( $invertentionImage->height() > 500 ) {
+              $invertentionImage->resize(null, 500);
+            }
           } 
         } else {
           $this->error('Profile image avatar-' . $avatar . '.png has missing in ' . $availabelAvatarPath . '.');

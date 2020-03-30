@@ -185,18 +185,21 @@ class UserController extends Controller
       }
 
       if ( $user->image != 'default.png' ) {
-        File::delete(public_path('storage/img/profile/') . $user->image);
+        Storage::disk('public')->delete('img/profile/' . $user->image);
       }
 
       $imageName = Str::random(32) . '.' . $extension;
       $invertentionImage = Image::make($image->getRealPath());
-      $dimension = Image::make($image);
       
-      if ( $dimension->width() > 500 || $dimension->height() > 500 ) {
-        $invertentionImage->resize(500, 500);
+      if ( $invertentionImage->width() > 500 ) {
+        $invertentionImage->resize(500, null);
       }
 
-      $result = $invertentionImage->save(public_path('storage/img/profile/' . $imageName));
+      if ( $invertentionImage->height() > 500 ) {
+        $invertentionImage->resize(null, 500);
+      }
+
+      $result = $invertentionImage->save(storage_path('app/public/img/profile/' . $imageName));
 
       if ( $result && User::where('id', auth()->user()->id)->update(['image' => $imageName]) ) {
         return redirect()->route('profile')->with('alert', [
