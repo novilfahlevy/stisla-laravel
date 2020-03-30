@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -56,14 +55,16 @@ class PublishProfileImage extends Command
         if ( File::isFile($imgPath) ) {
           File::copy($imgPath, storage_path('app/public/img/profile/default.png'));
         } else {
-          $this->error('Profile image avatar-' . $this->argument('avatar') . '.png has missing in ' . public_path('img/avatar'));
+          $this->error('Profile image avatar-' . $this->argument('avatar') . '.png has missing in ' . public_path('img/avatar') . '.');
           return;
         }
       }
 
       if ( !File::isDirectory(public_path('storage')) ) {
-        Artisan::call('storage:link');
+        $this->call('storage:link');
       }
+
+      $this->info('Profile image was succesfully published.');
     } else {
       $this->error(public_path('img/avatar') . ' not found.');
       return;
