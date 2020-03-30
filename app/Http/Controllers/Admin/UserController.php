@@ -11,6 +11,7 @@ use App\Role;
 use Illuminate\Http\Request as BaseRequest;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -184,7 +185,7 @@ class UserController extends Controller
       }
 
       if ( $user->image != 'default.png' ) {
-        Storage::delete('public/img/profile/' . $user->image);
+        File::delete(public_path('storage/img/profile/') . $user->image);
       }
 
       $imageName = Str::random(32) . '.' . $extension;
