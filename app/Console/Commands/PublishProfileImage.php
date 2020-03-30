@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class PublishProfileImage extends Command
 {
@@ -20,7 +21,7 @@ class PublishProfileImage extends Command
    *
    * @var string
    */
-  protected $description = 'Publish an user avatar to public storage';
+  protected $description = 'Publish an user avatar from \'public/img/avatar\' to storage in \'storage/app/public/img/profile\' as default.png';
 
   /**
    * Create a new command instance.
@@ -29,7 +30,7 @@ class PublishProfileImage extends Command
    */
   public function __construct()
   {
-      parent::__construct();
+    parent::__construct();
   }
 
   /**
@@ -39,11 +40,13 @@ class PublishProfileImage extends Command
    */
   public function handle()
   {
-    if ( File::isDirectory(public_path('img/avatar')) ) {
+    $availabelAvatarPath = public_path('img/avatar');
+
+    if ( File::isDirectory($availabelAvatarPath) ) {
       $profileImagePaths = ['public', 'img', 'profile'];
-      $profileImagePath = '';
       
       if ( !Storage::disk('local')->exists(join('/', $profileImagePaths)) ) {
+        $profileImagePath = '';
         foreach ( $profileImagePaths as $path ) {
           $profileImagePath .= $path . '/';
           Storage::disk('local')->makeDirectory(rtrim($profileImagePath, '/'));
@@ -51,11 +54,18 @@ class PublishProfileImage extends Command
       }
 
       if ( Storage::disk('public')->exists('img/profile') ) {
-        $imgPath = public_path('img/avatar/avatar-' . $this->argument('avatar') . '.png');
+        $avatar = $this->argument('avatar');
+        $imgPath = public_path('img/avatar/avatar-' . $avatar . '.png');
+        
         if ( File::isFile($imgPath) ) {
-          File::copy($imgPath, storage_path('app/public/img/profile/default.png'));
+          $imgPathToStorage = storage_path('app/public/img/profile/default.png');
+          $imageHasCopied = File::copy($imgPath, $imgPathToStorage);
+
+          if ( $imageHasCopied ) {
+            Image::make($imgPathToStorage)->resize(500, 500);
+          } 
         } else {
-          $this->error('Profile image avatar-' . $this->argument('avatar') . '.png has missing in ' . public_path('img/avatar') . '.');
+          $this->error('Profile image avatar-' . $avatar . '.png has missing in ' . $availabelAvatarPath . '.');
           return;
         }
       }
@@ -66,7 +76,7 @@ class PublishProfileImage extends Command
 
       $this->info('Profile image was succesfully published.');
     } else {
-      $this->error(public_path('img/avatar') . ' not found.');
+      $this->error($availabelAvatarPath . ' not found.');
       return;
     }
   }
