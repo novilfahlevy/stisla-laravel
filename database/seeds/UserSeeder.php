@@ -17,12 +17,12 @@ class UserSeeder extends Seeder
         'name' => 'admin',
         'email' => 'admin@example.com',
         'password' => Hash::make('12345678')
-      ])->assignRole('admin');
+      ])->assignRole('super admin');
 
       User::create([
         'name' => 'user',
         'email' => 'user@example.com',
         'password' => Hash::make('12345678')
-      ])->assignRole('user');
+      ])->assignRole('admin');
     }
 }

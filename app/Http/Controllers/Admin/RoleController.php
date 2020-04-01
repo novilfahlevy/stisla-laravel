@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Permission;
-use App\Role;
 use App\User;
-use Spatie\Permission\Models\Role as SpatieRole;
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -44,7 +43,7 @@ class RoleController extends Controller
   {
     $this->authorizePermissions('add_role');
 
-    if ( SpatieRole::create(['name' => strtolower($request->name)]) ) {
+    if ( Role::create(['name' => strtolower($request->name)]) ) {
       return redirect('role')->with('alert', [
         'type' => 'success',
         'message' => 'Role has successfully added.'
@@ -151,7 +150,7 @@ class RoleController extends Controller
   public function setPermissions(Request $request, $id) {
     $this->authorizePermissions('manage_role_permissions');
 
-    SpatieRole::find($id)->syncPermissions(json_decode($request->permissions));
+    Role::find($id)->syncPermissions(json_decode($request->permissions));
     return redirect(route('role.show', $id))->with('alert', [
       'type' => 'success',
       'message' => 'Role permissions have successfully managed.'

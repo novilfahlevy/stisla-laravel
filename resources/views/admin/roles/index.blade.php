@@ -17,28 +17,43 @@
         @endcan
       </div>
       <div class="card-body">
-        <ul class="list-group">
-          @foreach ($roles as $role)
-          <li class="list-group-item d-flex align-items-center justify-content-between">
-            <h6 class="mb-0">{{ $role->name }}</h6>
-            <div>
-              @can('see_role_permissions')
-              <a href="{{ route('role.show', $role->id) }}" class="btn btn-sm btn-warning mr-1">
-                Permission
-              </a>
-              @endcan
-              <button type="button" class="btn btn-sm btn-success mr-1" id="editRole" data-id="{{ $role->id }}" data-role="{{ $role->name }}">
-                Edit
-              </button>
-              @can('delete_role')
-              <button type="button" class="btn btn-sm btn-danger" id="deleteRole" data-id="{{ $role->id }}">
-                Delete
-              </button>
-              @endcan
+        <div class="row">
+          @foreach ( $roles as $role )
+          <div class="col-6 col-lg-3">
+            <div class="card role border shadow-sm">
+              <div class="card-body p-0 d-flex align-items-center">
+                <div class="text-center w-100 border-right">
+                  <h6 class="my-3 text-center text-primary text-uppercase">{{ $role->name }}</h6>
+                </div>
+                <div class="text-center mx-1">
+                  <div class="dropdown">
+                    <i class="btn btn-light btn-sm border-0 bg-transparent fas fa-ellipsis-v" id="roleMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer"></i>
+                    <div class="dropdown-menu pt-0" aria-label="roleMenu">
+                      <p class="dropdown-header mb-0 pl-3">Total: {{ $role->users->count() }}</p>
+                      <hr class="my-0">
+                      @can('see_role_permissions')
+                      <a href="{{ route('role.show', $role->id) }}" class="dropdown-item">
+                        Permissions
+                      </a>
+                      @endcan
+                      @can('edit_role')
+                      <a href="/" class="dropdown-item" id="editRole" data-id="{{ $role->id }}" data-role="{{ $role->name }}">
+                        Edit
+                      </a>
+                      @endcan
+                      @can('delete_role')
+                      <a href="/" class="dropdown-item" id="deleteRole" data-id="{{ $role->id }}">
+                        Delete
+                      </a>
+                      @endcan
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </li>
+          </div>
           @endforeach
-        </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -61,6 +76,16 @@
 
 @push('js')
 <script>
+  const roles = $('.role');
+
+  const maxHeight = Math.max(
+    ...roles.map(function(i, e) {
+      return Number($(e).css('height').replace('px', ''));
+    })
+  );
+
+  roles.css('height', `${maxHeight}px`);
+
   $('button#addRole').on('click', async function() {
     const userId = $(this).data('id');
     const form = $('form#addRoleForm');
@@ -78,7 +103,9 @@
     }
   });
 
-  $('button#deleteRole').on('click', function() {
+  $('a#deleteRole').on('click', function(e) {
+    e.preventDefault();
+
     const userId = $(this).data('id');
     const form = $('form#deleteRoleForm');
 
@@ -86,7 +113,9 @@
     swalDelete(result => result && form.submit());
   });
 
-  $('button#editRole').on('click', async function() {
+  $('a#editRole').on('click', async function(e) {
+    e.preventDefault();
+
     const roleId = $(this).data('id');
     const form = $('form#editRoleForm');
 

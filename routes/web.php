@@ -15,23 +15,24 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+// Redirect to dashboard if user in '/' route
 Route::get('/', function() {
   return redirect('dashboard');
 });
 
-// Admin
-Route::middleware(['auth', 'role:admin'])->group(function() {
+// Auth
+Route::middleware(['auth'])->group(function() {
+  // Dashboard
   Route::get('dashboard', 'Admin\DashboardController@index')->name('dashboard');
 
-  Route::resource('user', 'Admin\UserController');
-  Route::resource('role', 'Admin\RoleController');
+  Route::resource('user', 'Admin\UserController'); // User
+  Route::resource('role', 'Admin\RoleController'); // Role
   
+  // Permission
   Route::get('permissions', 'Admin\PermissionController@index')->name('permissions');
   Route::put('role/permissions/{id}', 'Admin\RoleController@setPermissions')->name('setRolePermissions');
-});
 
-// All Roles
-Route::middleware(['auth'])->group(function() {
+  // Profile
   Route::get('profile', 'Admin\UserController@profile')->name('profile');
   Route::post('profile', 'Admin\UserController@changeProfile')->name('changeProfile');
   Route::post('profile/image', 'Admin\UserController@changeProfileImage')->name('changeProfileImage');

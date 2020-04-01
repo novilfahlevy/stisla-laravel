@@ -56,6 +56,8 @@
       return Number($(e).css('height').replace('px', ''));
     })
   );
+  
+  roles.css('height', `${maxHeight}px`);
 
   function setRolesToSubmit() {
     const inputField = $('input#permissions');
@@ -66,7 +68,6 @@
     inputField.val(JSON.stringify(roles.toArray()));
   }
 
-  roles.css('height', `${maxHeight}px`);
 
   $('#selectAllRole').on('click', function() {
     $('.role').addClass('bg-info is-selected');

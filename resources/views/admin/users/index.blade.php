@@ -25,7 +25,7 @@
               <th scope="col">Email</th>
               <th scope="col">Role</th>
               <th scope="col">Created At</th>
-              <th scope="col">Action</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -37,21 +37,26 @@
                 <td>{{ $user->roles->pluck('name')->first() }}</td>
                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                 <td>
-                  @can('see_user')
-                  <a href="{{ route('user.show', $user->id) }}" class="btn btn-sm btn-info mr-1">
-                    Detail
-                  </a>
-                  @endcan
-                  @can('edit_user')
-                  <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-success mr-1">
-                    Edit
-                  </a>
-                  @endcan
-                  @can('delete_user')
-                  <button type="button" class="btn btn-sm btn-danger" id="deleteModalButton" data-id="{{ $user->id }}">
-                    Delete
-                  </button>
-                  @endcan
+                  <div class="dropdown">
+                    <i class="btn btn-light btn-sm border-0 bg-transparent fas fa-ellipsis-v" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer"></i>
+                    <div class="dropdown-menu dropdown-menu-right pt-0" aria-label="userMenu">
+                      @can('see_user')
+                      <a href="{{ route('user.show', $user->id) }}" class="dropdown-item">
+                        Detail
+                      </a>
+                      @endcan
+                      @can('edit_user')
+                      <a href="{{ route('user.edit', $user->id) }}" class="dropdown-item">
+                        Edit
+                      </a>
+                      @endcan
+                      @can('delete_user')
+                      <a href="/" class="dropdown-item" id="deleteButton" data-id="{{ $user->id }}">
+                        Delete
+                      </a>
+                      @endcan
+                    </div>
+                  </div>
                 </td>
               </tr>
             @endforeach
@@ -69,7 +74,9 @@
 
 @push('js')
 <script>
-  $('button#deleteModalButton').on('click', function() {
+  $('a#deleteButton').on('click', function(e) {
+    e.preventDefault();
+
     const userId = $(this).data('id');
     const form = $('form#deleteUserForm');
 

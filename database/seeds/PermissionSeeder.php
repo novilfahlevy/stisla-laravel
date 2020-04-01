@@ -12,16 +12,17 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-      Permission::create(['name' => 'see_dashboard'])->assignRole('admin');
-      Permission::create(['name' => 'see_users'])->assignRole('admin');
-      Permission::create(['name' => 'see_user'])->assignRole('admin');
-      Permission::create(['name' => 'delete_user'])->assignRole('admin');
-      Permission::create(['name' => 'edit_user'])->assignRole('admin');
-      Permission::create(['name' => 'add_user'])->assignRole('admin');
-      Permission::create(['name' => 'see_roles'])->assignRole('admin');
-      Permission::create(['name' => 'add_role'])->assignRole('admin');
-      Permission::create(['name' => 'delete_role'])->assignRole('admin');
-      Permission::create(['name' => 'see_role_permissions'])->assignRole('admin');
-      Permission::create(['name' => 'manage_role_permissions'])->assignRole('admin');
+      Permission::create(['name' => 'see_dashboard'])->assignRole('super admin');
+      Permission::create(['name' => 'see_users'])->assignRole('super admin');
+      Permission::create(['name' => 'see_user'])->assignRole('super admin');
+      Permission::create(['name' => 'delete_user'])->assignRole('super admin');
+      Permission::create(['name' => 'edit_user'])->assignRole('super admin');
+      Permission::create(['name' => 'add_user'])->assignRole('super admin');
+      Permission::create(['name' => 'see_roles'])->assignRole('super admin');
+      Permission::create(['name' => 'add_role'])->assignRole('super admin');
+      Permission::create(['name' => 'delete_role'])->assignRole('super admin');
+      Permission::create(['name' => 'edit_role'])->assignRole('super admin');
+      Permission::create(['name' => 'see_role_permissions'])->assignRole('super admin');
+      Permission::create(['name' => 'manage_role_permissions'])->assignRole('super admin');
     }
   }
