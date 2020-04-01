@@ -44,24 +44,46 @@ class PublishProfileImage extends Command
 
     if ( File::isDirectory($availabelAvatarPath) ) {
       $profileImagePaths = ['public', 'img', 'profile'];
+
+      $publicStorage = Storage::disk('public');
+      $localStorage = Storage::disk('local');
       
-      if ( !Storage::disk('local')->exists(join('/', $profileImagePaths)) ) {
+      if ( !$localStorage->exists(join('/', $profileImagePaths)) ) {
         $profileImagePath = '';
         foreach ( $profileImagePaths as $path ) {
           $profileImagePath .= $path . '/';
-          Storage::disk('local')->makeDirectory(rtrim($profileImagePath, '/'));
+          $localStorage->makeDirectory(rtrim($profileImagePath, '/'));
         }
       }
 
-      if ( Storage::disk('public')->exists('img/profile') ) {
+      if ( $publicStorage->exists('img/profile') ) {
         $avatar = $this->argument('avatar');
-        $imgPath = public_path('img/avatar/avatar-' . $avatar . '.png');
+        $imgPath = public_path('img/avatar/avatar-' . $avatar);
+        $imgTypes = ['jpg', 'png', 'jpeg'];
 
-        if ( File::isFile($imgPath) ) {
-          $imgPathToStorage = storage_path('app/public/img/profile/default.png');
-          $imageHasCopied = File::copy($imgPath, $imgPathToStorage);
+        $imgType = collect($imgTypes)
+          ->filter(function($type) use ($imgPath) {
+            return File::isFile($imgPath . '.' . $type);
+          })
+          ->values();
 
-          if ( $imageHasCopied ) {
+        if ( $imgType->count() ) {
+          $imgType = $imgType->first();
+          $imgPath = $imgPath . '.' . $imgType;
+
+          $imgPathToStorage = storage_path('app/public/img/profile/default.' . $imgType);
+
+          $storageHasDefaultImg = collect($imgTypes)
+            ->filter(function($type) use ($publicStorage) {
+              return $publicStorage->exists('img/profile/default.' . $type);
+            })
+            ->values();
+
+          if ( $storageHasDefaultImg->count() ) {
+            $publicStorage->delete('img/profile/default.' . $storageHasDefaultImg->first());
+          }
+
+          if ( File::copy($imgPath, $imgPathToStorage) ) {
             $invertentionImage = Image::make($imgPathToStorage);
 
             if ( $invertentionImage->width() > 500 ) {
@@ -73,7 +95,7 @@ class PublishProfileImage extends Command
             }
           } 
         } else {
-          $this->error('Profile image avatar-' . $avatar . '.png has missing in ' . $availabelAvatarPath . '.');
+          $this->error("'avatar-$avatar' was not found in '$availabelAvatarPath'.");
           return;
         }
       }
