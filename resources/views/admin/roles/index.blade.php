@@ -21,13 +21,11 @@
           @foreach ( $roles as $role )
           <div class="col-6 col-lg-3">
             <div class="card role border shadow-sm">
-              <div class="card-body p-0 d-flex align-items-center">
-                <div class="text-center w-100 border-right">
-                  <h6 class="my-3 text-center text-primary text-uppercase">{{ $role->name }}</h6>
-                </div>
-                <div class="text-center mx-1">
+              <div class="card-body py-0 pl-3 pr-2 d-flex align-items-center justify-content-between">
+                <h6 class="my-3 text-primary text-uppercase">{{ $role->name }}</h6>
+                <div class="text-right mx-1">
                   <div class="dropdown">
-                    <i class="btn btn-light btn-sm border-0 bg-transparent fas fa-ellipsis-v" id="roleMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer"></i>
+                    <i class="btn btn-light btn-sm border-0 shadow-none bg-transparent fas fa-ellipsis-v" id="roleMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer"></i>
                     <div class="dropdown-menu pt-0" aria-label="roleMenu">
                       <p class="dropdown-header mb-0 pl-3">Total: {{ $role->users->count() }}</p>
                       <hr class="my-0">

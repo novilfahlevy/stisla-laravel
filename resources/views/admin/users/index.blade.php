@@ -38,7 +38,7 @@
                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                 <td>
                   <div class="dropdown">
-                    <i class="btn btn-light btn-sm border-0 bg-transparent fas fa-ellipsis-v" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer"></i>
+                    <i class="btn btn-light btn-sm border-0 shadow-none bg-transparent fas fa-ellipsis-v" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer"></i>
                     <div class="dropdown-menu dropdown-menu-right pt-0" aria-label="userMenu">
                       @can('see_user')
                       <a href="{{ route('user.show', $user->id) }}" class="dropdown-item">
