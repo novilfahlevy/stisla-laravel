@@ -34,7 +34,11 @@
                 <th scope="row">{{ $i + 1 }}</th>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
-                <td>{{ $user->roles->pluck('name')->first() }}</td>
+                <td>
+                  <div class="badge badge-primary badge-sm">
+                    {{ $user->roles->pluck('name')->first() }}
+                  </div>
+                </td>
                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                 <td>
                   <div class="dropdown">
