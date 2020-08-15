@@ -28,13 +28,6 @@
               <div class="form-group">
                 <div class="d-block">
                   <label for="password" class="control-label">Password</label>
-                  @if (Route::has('password.request'))
-                  <div class="float-right">
-                    <a href="{{ route('password.request') }}" class="text-small">
-                      Lupa Password?
-                    </a>
-                  </div>
-                  @endif
                 </div>
                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                 @error('password')
@@ -58,9 +51,6 @@
               </div>
             </form>
           </div>
-        </div>
-        <div class="mt-5 text-muted text-center">
-          Belum punya akun? <a href="{{ route('register') }}">Buat disini</a>
         </div>
         <div class="simple-footer">
           Copyright &copy; Stisla 2018

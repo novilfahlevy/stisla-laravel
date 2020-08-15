@@ -15,9 +15,9 @@ function swalDelete(callback) {
     text: "Data yang sudah dihapus tidak dapat dipulihkan lagi!",
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
     cancelButtonText: 'Batal',
-    confirmButtonText: 'Iya'
+    confirmButtonText: 'Ya'
   }).then(result => callback(result.value));
 }

@@ -40,7 +40,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $loginView = 'auth/login2';
+    protected $loginView = 'auth/login';
 
     /**
      * Create a new controller instance.

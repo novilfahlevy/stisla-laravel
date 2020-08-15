@@ -3,8 +3,8 @@
 @section('content')
 <section class="section">
   <div class="container mt-5">
-    <div class="row">
-      <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-5">
         <div class="login-brand">
           <img src="{{ asset('img/stisla-fill.svg') }}" alt="logo" width="100" class="shadow-light rounded-circle">
         </div>
@@ -17,7 +17,7 @@
               @csrf
               <div class="row">
                 <div class="form-group col-12">
-                  <label for="name">Name</label>
+                  <label for="name">Nama</label>
                   <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
                   @error('name')
                   <span class="invalid-feedback" role="alert">
@@ -52,14 +52,14 @@
                   </div>
                 </div>
                 <div class="form-group col-6">
-                  <label for="password2" class="d-block">Password Confirmation</label>
+                  <label for="password2" class="d-block">Konfirmasi Password</label>
                   <input id="password2" type="password" class="form-control" name="password_confirmation">
                 </div>
               </div>
 
               <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-lg btn-block">
-                  Register
+                  Buat Akun
                 </button>
               </div>
             </form>

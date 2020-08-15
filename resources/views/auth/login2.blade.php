@@ -40,18 +40,9 @@
           </div>
 
           <div class="form-group text-right">
-            @if (Route::has('password.request'))
-            <a href="{{ route('password.request') }}" class="float-left mt-3 text-small">
-              Lupa Password?
-            </a>
-            @endif
             <button type="submit" class="btn btn-primary btn-lg btn-icon icon-right" tabindex="4">
               Login
             </button>
-          </div>
-
-          <div class="mt-5 text-center">
-            Belum punya akun? <a href="{{ route('register') }}">Buat disini</a>
           </div>
         </form>
 
