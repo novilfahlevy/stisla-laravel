@@ -18,14 +18,14 @@
             @csrf
             <div class="form-group">
               <label for="name">Nama</label>
-              <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name">
+              <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name') }}">
               @error('name')
               <p class="invalid-feedback d-block">{{ $message }}</p>
               @enderror
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" id="email">
+              <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email') }}">
               @error('email')
               <p class="invalid-feedback d-block">{{ $message }}</p>
               @enderror
@@ -34,7 +34,7 @@
               <label for="role">Role</label>
               <select class="form-control" name="role" id="role">
                 @foreach ($roles as $role)
-                <option value="{{ $role }}">{{ $role }}</option>
+                <option value="{{ $role }}" {{ old('role') === $role ? 'selected' : '' }}>{{ $role }}</option>
                 @endforeach
               </select>
             </div>
