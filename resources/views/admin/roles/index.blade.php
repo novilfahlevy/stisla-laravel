@@ -17,12 +17,19 @@
         @endcan
       </div>
       <div class="card-body">
+        <h6>
+          <i class="fas fa-backspace text-danger"></i> = User dengan role tersebut tidak dapat dihapus (undeleteable).
+        </h6>
+        <hr>
         <div class="row">
           @foreach ( $roles as $role )
           <div class="col-6 col-lg-3">
             <div class="card role border shadow-sm">
               <div class="card-body py-0 pl-3 pr-2 d-flex align-items-center justify-content-between">
-                <h6 class="my-3 text-primary text-uppercase">{{ $role->name }}</h6>
+                <h6 class="my-3 text-primary text-uppercase">
+                  {{ $role->name }}
+                  {!! $role->is_deleteable ? '' : '<i class="fas fa-backspace text-danger"></i>' !!}
+                </h6>
                 <div class="text-right mx-1">
                   <div class="dropdown">
                     <i class="btn btn-light btn-sm border-0 shadow-none bg-transparent fas fa-ellipsis-v" id="roleMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer"></i>
@@ -39,6 +46,9 @@
                         Delete
                       </a>
                       @endcan
+                      <a href="/" class="dropdown-item" id="toggleDeleteableRole" data-id="{{ $role->id }}">
+                        {{ $role->is_deleteable ? 'Undeleteable' : 'Deleteable' }}
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -60,6 +70,11 @@
   @csrf
   <input type="text" name="name" id="name">
 </form>
+
+<form action="/" class="d-none" method="POST" id="toggleDeleteableRoleForm">
+  @csrf @method('put')
+  <input type="text" name="roleId" id="roleId">
+</form>
 @endsection
 
 @push('js')
@@ -72,6 +87,16 @@
 
     form.attr('action', `${baseURL}/role/${userId}`);
     swalDelete(result => result && form.submit());
+  });
+
+  $('a#toggleDeleteableRole').on('click', function(e) {
+    e.preventDefault();
+
+    const roleId = $(this).data('id');
+    const form = $('form#toggleDeleteableRoleForm');
+
+    form.attr('action', `${baseURL}/role/${roleId}/deleteable`);
+    form.submit();
   });
 </script>
 @endpush

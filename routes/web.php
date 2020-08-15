@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function() {
 
   Route::resource('user', 'Admin\UserController'); // User
   Route::resource('role', 'Admin\RoleController'); // Role
+  Route::put('role/{id}/deleteable', 'Admin\RoleController@toggleDeleteable');
   
   // Permission
   Route::get('permissions', 'Admin\PermissionController@index')->name('permissions');
