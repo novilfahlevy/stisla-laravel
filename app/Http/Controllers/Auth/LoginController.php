@@ -36,6 +36,13 @@ class LoginController extends Controller
     protected $logoutTo = '/login';
 
     /**
+     * Select your login view page.
+     *
+     * @var string
+     */
+    protected $loginView = 'auth/login2';
+
+    /**
      * Create a new controller instance.
      *
      * @return void

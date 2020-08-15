@@ -31,7 +31,7 @@
                   @if (Route::has('password.request'))
                   <div class="float-right">
                     <a href="{{ route('password.request') }}" class="text-small">
-                      Forgot Password?
+                      Lupa Password?
                     </a>
                   </div>
                   @endif
@@ -47,7 +47,7 @@
               <div class="form-group">
                 <div class="custom-control custom-checkbox">
                   <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                  <label class="custom-control-label" for="remember">Remember Me</label>
+                  <label class="custom-control-label" for="remember">Ingat saya</label>
                 </div>
               </div>
 
@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="mt-5 text-muted text-center">
-          Don't have an account? <a href="{{ route('register') }}">Create One</a>
+          Belum punya akun? <a href="{{ route('register') }}">Buat disini</a>
         </div>
         <div class="simple-footer">
           Copyright &copy; Stisla 2018
