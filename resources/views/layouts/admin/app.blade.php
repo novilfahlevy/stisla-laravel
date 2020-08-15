@@ -9,6 +9,8 @@
 
     <title>Laravel Stisla | {{ $title }}</title>
 
+    <link rel="shortcut icon" type="image/png" href="/img/stisla-fill.png"/>
+
     <!-- Scripts -->
     <script>const baseURL = `{{ url('/') }}`;</script>
     <script src="{{ asset('js/app.js') }}" defer></script>
