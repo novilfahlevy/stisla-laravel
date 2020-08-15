@@ -19,15 +19,15 @@
             <div class="row">
               <div class="col-12">
                 <div class="form-group">
-                  <label for="name">Nama</label>
+                  <label for="name">Nama Role</label>
                   <input type="text" class="form-control" id="name" name="name" value="{{ $role['name'] }}">
                 </div>
               </div>
               <div class="col-12">
                 <label>Hak Akses</label>
                 <div class="border p-3 mb-3">
-                  <button type="button" class="btn btn-success btn-sm mr-2" id="selectAllRole">Select All</button>
-                  <button type="button" class="btn btn-success btn-sm" id="unselectAllRole">Unselect All</button>
+                  <button type="button" class="btn btn-success btn-sm mr-2" id="selectAllRole">Pilih Semua</button>
+                  <button type="button" class="btn btn-success btn-sm" id="unselectAllRole">Batal Pilih Semua</button>
                   <hr>
                   <div class="row">
                     @foreach ($permissions as $permission)
