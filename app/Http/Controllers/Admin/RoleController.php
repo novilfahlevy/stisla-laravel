@@ -18,7 +18,7 @@ class RoleController extends Controller
    */
   public function index()
   {
-    $this->authorizePermissions('see_roles');
+    $this->authorizePermissions('Melihat daftar role');
     $roles = Role::all();
     return view('admin.roles.index', compact('roles'));
   }
@@ -30,7 +30,8 @@ class RoleController extends Controller
    */
   public function create()
   {
-    
+    $permissions = Permission::all();
+    return view('admin.roles.create', compact('permissions'));
   }
 
   /**
@@ -41,17 +42,20 @@ class RoleController extends Controller
    */
   public function store(Request $request)
   {
-    $this->authorizePermissions('add_role');
+    $this->authorizePermissions('Menambah role');
 
-    if ( Role::create(['name' => strtolower($request->name)]) ) {
-      return redirect('role')->with('alert', [
-        'type' => 'success',
-        'message' => 'Role has successfully added.'
-      ]);
+    if ( $role = Role::create(['name' => strtolower($request->name)]) ) {
+      if ( $role->syncPermissions(json_decode($request->permissions)) ) {
+        return redirect('role')->with('alert', [
+          'type' => 'success',
+          'message' => 'Role berhasil ditambah.'
+        ]);
+      }
     }
+
     return redirect('role')->with('alert', [
       'type' => 'danger',
-      'message' => 'Failed to add role, something went wrong.'
+      'message' => 'Gagal menambah role.'
     ]);
   }
 
@@ -63,14 +67,7 @@ class RoleController extends Controller
    */
   public function show($id)
   {
-    $this->authorizePermissions('see_role_permissions');
-
-    $role = Role::find($id)->only(['id', 'name']);
-    $permissions = DB::table('role_has_permissions')
-      ->join('permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-      ->where('role_id', $id)
-      ->get();
-    return view('admin.roles.permission', compact('role', 'permissions'));
+    
   }
 
   /**
@@ -81,10 +78,9 @@ class RoleController extends Controller
    */
   public function edit($id)
   {
-    $this->authorizePermissions('manage_role_permissions');
+    $this->authorizePermissions('Mengubah data role');
 
     $role = Role::find($id)->only(['id', 'name']);
-
     $permissions = Permission::select([
       '*',
       'isCurrentPermission' => DB::table('role_has_permissions')
@@ -94,12 +90,11 @@ class RoleController extends Controller
     ])
     ->orderBy(DB::raw('CASE WHEN isCurrentPermission > 0 THEN 1 ELSE 0 END'), 'desc')
     ->get();
-
     $currentPermissions = $permissions->filter(function($permission) {
       return $permission->isCurrentPermission;
     })->pluck('name');
 
-    return view('admin.roles.edit_permissions', compact('role', 'permissions', 'currentPermissions'));
+    return view('admin.roles.edit', compact('role', 'permissions', 'currentPermissions'));
   }
 
   /**
@@ -111,16 +106,23 @@ class RoleController extends Controller
    */
   public function update(Request $request, $id)
   {
-    if ( Role::where('id', $id)->update(['name' => strtolower($request->name)]) ) {
+    $this->authorizePermissions('Mengubah data role');
+
+    if ( 
+      Role::where('id', $id)->update(['name' => strtolower($request->name)]) 
+      &&
+      Role::find($id)->syncPermissions(json_decode($request->permissions))
+    ) {
       return redirect('role')->with('alert', [
         'type' => 'success',
-        'message' => 'Role name has successfully changed.'
+        'message' => 'Role berhasil diubah.'
       ]);
     }
 
+
     return redirect('role')->with('alert', [
       'type' => 'danger',
-      'message' => 'Failed to change role name, something went wrong.'
+      'message' => 'Gagal mengubah data role.'
     ]);
   }
 
@@ -132,28 +134,18 @@ class RoleController extends Controller
    */
   public function destroy($id)
   {
-    $this->authorizePermissions('delete_role');
+    $this->authorizePermissions('Menghapus role');
 
     if ( Role::where('id', $id)->delete() ) {
       return redirect('role')->with('alert', [
         'type' => 'success',
-        'message' => 'Role has successfully deleted.'
+        'message' => 'Berhasil menghapus role.'
       ]);
     }
 
     return redirect('role')->with('alert', [
       'type' => 'danger',
-      'message' => 'Failed to delete role, something went wrong.'
-    ]);
-  }
-
-  public function setPermissions(Request $request, $id) {
-    $this->authorizePermissions('manage_role_permissions');
-
-    Role::find($id)->syncPermissions(json_decode($request->permissions));
-    return redirect(route('role.show', $id))->with('alert', [
-      'type' => 'success',
-      'message' => 'Role permissions have successfully managed.'
+      'message' => 'Gagal menghapus role.'
     ]);
   }
 }

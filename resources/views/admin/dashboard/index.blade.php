@@ -1,4 +1,4 @@
-@extends('layouts.admin.app', ['title' => 'Dashboard'])
+@extends('layouts.admin.app', ['title' => 'Dasbor'])
 
 @section('content')
 <div class="row">
@@ -9,7 +9,7 @@
       </div>
       <div class="card-wrap">
         <div class="card-header">
-          <h4>Total Admin</h4>
+          <h4>Jumlah Admin</h4>
         </div>
         <div class="card-body">
           10
@@ -24,7 +24,7 @@
       </div>
       <div class="card-wrap">
         <div class="card-header">
-          <h4>Total User</h4>
+          <h4>Jumlah User</h4>
         </div>
         <div class="card-body">
           20

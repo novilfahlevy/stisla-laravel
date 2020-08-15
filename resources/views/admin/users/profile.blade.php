@@ -1,4 +1,4 @@
-@extends('layouts.admin.app', ['title' => 'Profile'])
+@extends('layouts.admin.app', ['title' => 'Profil'])
 
 @section('content')
 <div class="row">
@@ -12,12 +12,12 @@
               <form action="{{ route('changeProfile') }}" method="post">
                 @csrf
                 <div class="card-header">
-                  <h4>Edit Profile Info</h4>
+                  <h4>Ubah Informasi Profil</h4>
                 </div>
                 <div class="card-body">
                   <div class="row">
                     <div class="form-group col-12">
-                      <label for="name">Name</label>
+                      <label for="name">Nama</label>
                       <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" value="{{ $user->name }}">
                       @error('name')
                       <span class="invalid-feedback d-block" role="alert">
@@ -37,7 +37,7 @@
                   </div>
                 </div>
                 <div class="card-footer text-right">
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                  <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                 </div>
               </form>
             </div>
@@ -45,14 +45,14 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h4>Change Password</h4>
+                <h4>Ganti Password</h4>
               </div>
               <form action="{{ route('changePassword') }}" method="POST">
                 @csrf @method('put')
                 <div class="card-body">
                   <div class="row">
                     <div class="form-group col-12">
-                      <label for="oldPassword">Old Password</label>
+                      <label for="oldPassword">Password Lama</label>
                       <input type="password" class="form-control @error('oldPassword') is-invalid @enderror" name="oldPassword" id="password">
                       @error('oldPassword')
                       <span class="invalid-feedback d-block" role="alert">
@@ -66,7 +66,7 @@
                       @endif
                     </div>
                     <div class="form-group col-12">
-                      <label for="password">New Password</label>
+                      <label for="password">Password Baru</label>
                       <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password">
                       @error('password')
                       <span class="invalid-feedback d-block" role="alert">
@@ -75,13 +75,13 @@
                       @enderror
                     </div>
                     <div class="form-group mb-0 col-12">
-                      <label for="password_confirmation">Confirm Password</label>
+                      <label for="password_confirmation">Konfirmasi Password Baru</label>
                       <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
                     </div>
                   </div>
                 </div>
                 <div class="card-footer text-right">
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                  <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                 </div>
               </form>
             </div>
@@ -91,7 +91,7 @@
       <div class="col-12 col-lg-5 order-1 order-lg-2">
         <div class="card profile-widget mt-0">
           <div class="card-header">
-            <h4>Edit Profile Image</h4>
+            <h4>Ubah Gambar Profil</h4>
           </div>
           <form action="{{ route('changeProfileImage') }}" method="POST" enctype="multipart/form-data" id="changeProfileImageForm">
             <div class="card-body d-flex justify-content-center">
@@ -107,7 +107,7 @@
                     @csrf
                     <div id="dropArea">
                       <div class="m-0 pt-3 text-break">
-                        <h6 class="mb-0">Select your profile image</h6>
+                        <h6 class="mb-0">Pilih gambar profil</h6>
                         <p class="mb-0 text-center">500 &times; 500</p>
                       </div>
                     </div>
@@ -117,7 +117,7 @@
               </div>
             </div>
             <div class="card-footer text-center">
-              <button type="submit" class="btn btn-primary">Save Change</button>
+              <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
             </div>
           </form>
         </div>

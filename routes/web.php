@@ -30,7 +30,6 @@ Route::middleware(['auth'])->group(function() {
   
   // Permission
   Route::get('permissions', 'Admin\PermissionController@index')->name('permissions');
-  Route::put('role/permissions/{id}', 'Admin\RoleController@setPermissions')->name('setRolePermissions');
 
   // Profile
   Route::get('profile', 'Admin\UserController@profile')->name('profile');

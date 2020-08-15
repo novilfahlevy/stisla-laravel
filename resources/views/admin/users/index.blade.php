@@ -1,4 +1,4 @@
-@extends('layouts.admin.app', ['title' => 'Users'])
+@extends('layouts.admin.app', ['title' => 'Pengguna'])
 
 @section('content')
 <div class="row">
@@ -6,12 +6,12 @@
     @include('partials.alert')
     <div class="card">
       <div class="card-header">
-        <h4>User List</h4>
-        @can('add_user')
+        <h4>Daftar Pengguna</h4>
+        @can('Menambah pengguna')
         <div class="card-header-form">
           <a href="{{ route('user.create') }}" class="btn btn-primary">
             <i class="fas fa-plus mr-1"></i>
-            User
+            Pengguna
           </a>
         </div>
         @endcan
@@ -21,10 +21,10 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Name</th>
+              <th scope="col">Nama</th>
               <th scope="col">Email</th>
               <th scope="col">Role</th>
-              <th scope="col">Created At</th>
+              <th scope="col">Dibuat pada</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -44,19 +44,19 @@
                   <div class="dropdown">
                     <i class="btn btn-light btn-sm border-0 shadow-none bg-transparent fas fa-ellipsis-v" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer"></i>
                     <div class="dropdown-menu dropdown-menu-right pt-0" aria-label="userMenu">
-                      @can('see_user')
+                      @can('Melihat detail pengguna')
                       <a href="{{ route('user.show', $user->id) }}" class="dropdown-item">
                         Detail
                       </a>
                       @endcan
-                      @can('edit_user')
+                      @can('Mengubah data pengguna')
                       <a href="{{ route('user.edit', $user->id) }}" class="dropdown-item">
                         Edit
                       </a>
                       @endcan
-                      @can('delete_user')
+                      @can('Menghapus pengguna')
                       <a href="/" class="dropdown-item" id="deleteButton" data-id="{{ $user->id }}">
-                        Delete
+                        Hapus
                       </a>
                       @endcan
                     </div>

@@ -8,21 +8,24 @@
       <a href="{{ route('dashboard') }}">St</a>
     </div>
     <ul class="sidebar-menu">
-      <li class="menu-header">Dashboard</li>
       <li class="nav-item {{ route('dashboard') == $currentRoute ? 'active' : null }}">
-        <a href="{{ route('dashboard') }}" class="nav-link"><i class="fas fa-fire"></i><span>Dashboard</span></a>
+        <a href="{{ route('dashboard') }}" class="nav-link"><i class="fas fa-fire"></i><span>Dasbor</span></a>
       </li>
-      <li class="menu-header">Users</li>
+      @can('Melihat daftar pengguna')
       <li class="nav-item {{ route('user.index') == $currentRoute ? 'active' : null }}">
-        <a href="{{ route('user.index') }}" class="nav-link"><i class="fas fa-users"></i><span>Users</span></a>
+        <a href="{{ route('user.index') }}" class="nav-link"><i class="fas fa-users"></i><span>Pengguna</span></a>
       </li>
-      <li class="menu-header">Authentication</li>
+      @endcan
+      @can('Melihat daftar role')
       <li class="nav-item {{ route('role.index') == $currentRoute ? 'active' : null }}">
-        <a href="{{ route('role.index') }}" class="nav-link"><i class="fas fa-user-tie"></i><span>Roles</span></a>
+        <a href="{{ route('role.index') }}" class="nav-link"><i class="fas fa-user-tie"></i><span>Role</span></a>
       </li>
+      @endcan
+      @can('Melihat daftar Hak Akses')
       <li class="nav-item {{ route('permissions') == $currentRoute ? 'active' : null }}">
-        <a href="{{ route('permissions') }}" class="nav-link"><i class="fas fa-user-tag"></i><span>Permissions</span></a>
+        <a href="{{ route('permissions') }}" class="nav-link"><i class="fas fa-user-tag"></i><span>Hak Akses</span></a>
       </li>
+      @endcan
     </ul>
   </aside>
 </div>

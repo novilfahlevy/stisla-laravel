@@ -1,15 +1,15 @@
-@extends('layouts.admin.app', ['title' => 'Add User'])
+@extends('layouts.admin.app', ['title' => 'Tambah Pengguna'])
 
 @section('content')
   <div class="row">
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4>User Form</h4>
+          <h4>Form Pengguna</h4>
           <div class="card-header-form">
             <a href="{{ route('user.index') }}" class="btn btn-primary">
               <i class="fas fa-angle-left mr-1"></i>
-              Back
+              Kembali
             </a>
           </div>
         </div>
@@ -17,7 +17,7 @@
           <form action="{{ route('user.store') }}" method="POST">
             @csrf
             <div class="form-group">
-              <label for="name">Name</label>
+              <label for="name">Nama</label>
               <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name">
               @error('name')
               <p class="invalid-feedback d-block">{{ $message }}</p>
@@ -50,13 +50,13 @@
               </div>
               <div class="col-6">
                 <div class="form-group">
-                  <label for="password_confirmation">Confirm Password</label>
+                  <label for="password_confirmation">Konfirmasi Password</label>
                   <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary">Simpan</button>
             </div>
           </form>
         </div>

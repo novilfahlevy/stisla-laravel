@@ -1,4 +1,4 @@
-@extends('layouts.admin.app', ['title' => 'Roles'])
+@extends('layouts.admin.app', ['title' => 'Role'])
 
 @section('content')
 <div class="row">
@@ -6,13 +6,13 @@
     @include('partials.alert')
     <div class="card">
       <div class="card-header">
-        <h4>Role List</h4>
-        @can('add_role')
+        <h4>Daftar Role</h4>
+        @can('Menambah role')
         <div class="card-header-form">
-          <button type="button" class="btn btn-primary" id="addRole">
+          <a href="{{ route('role.create') }}" class="btn btn-primary">
             <i class="fas fa-plus mr-1"></i>
             Role
-          </button>
+          </a>
         </div>
         @endcan
       </div>
@@ -29,17 +29,12 @@
                     <div class="dropdown-menu pt-0" aria-label="roleMenu">
                       <p class="dropdown-header mb-0 pl-3">Total: {{ $role->users->count() }}</p>
                       <hr class="my-0">
-                      @can('see_role_permissions')
-                      <a href="{{ route('role.show', $role->id) }}" class="dropdown-item">
-                        Permissions
-                      </a>
-                      @endcan
-                      @can('edit_role')
-                      <a href="/" class="dropdown-item" id="editRole" data-id="{{ $role->id }}" data-role="{{ $role->name }}">
+                      @can('Mengubah data role')
+                      <a href="{{ route('role.edit', $role->id) }}" class="dropdown-item" id="editRole">
                         Edit
                       </a>
                       @endcan
-                      @can('delete_role')
+                      @can('Menghapus role')
                       <a href="/" class="dropdown-item" id="deleteRole" data-id="{{ $role->id }}">
                         Delete
                       </a>
@@ -65,42 +60,10 @@
   @csrf
   <input type="text" name="name" id="name">
 </form>
-
-<form action="#" class="d-none" method="POST" id="editRoleForm">
-  @csrf @method('put')
-  <input type="text" name="name" id="name">
-</form>
 @endsection
 
 @push('js')
 <script>
-  const roles = $('.role');
-
-  const maxHeight = Math.max(
-    ...roles.map(function(i, e) {
-      return Number($(e).css('height').replace('px', ''));
-    })
-  );
-
-  roles.css('height', `${maxHeight}px`);
-
-  $('button#addRole').on('click', async function() {
-    const userId = $(this).data('id');
-    const form = $('form#addRoleForm');
-
-    const { value: roleName } = await Swal.fire({
-      title: 'Enter role name',
-      input: 'text',
-      showCancelButton: true,
-      inputValidator: value => !value && 'The role name field is required.'
-    })
-
-    if ( roleName ) {
-      form.find('input#name').val(roleName);
-      form.submit();
-    }
-  });
-
   $('a#deleteRole').on('click', function(e) {
     e.preventDefault();
 
@@ -109,28 +72,6 @@
 
     form.attr('action', `${baseURL}/role/${userId}`);
     swalDelete(result => result && form.submit());
-  });
-
-  $('a#editRole').on('click', async function(e) {
-    e.preventDefault();
-
-    const roleId = $(this).data('id');
-    const form = $('form#editRoleForm');
-
-    form.attr('action', `${baseURL}/role/${roleId}`);
-
-    const { value: roleName } = await Swal.fire({
-      title: 'Edit role name',
-      input: 'text',
-      inputValue: $(this).data('role'),
-      showCancelButton: true,
-      inputValidator: value => !value && 'The role name field is required.'
-    })
-
-    if ( roleName ) {
-      form.find('input#name').val(roleName);
-      form.submit();
-    }
   });
 </script>
 @endpush

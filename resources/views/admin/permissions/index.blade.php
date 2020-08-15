@@ -1,11 +1,11 @@
-@extends('layouts.admin.app', ['title' => 'Permissions'])
+@extends('layouts.admin.app', ['title' => 'Hak Akses'])
 
 @section('content')
 <div class="row">
   <div class="col-12">  
     <div class="card">
       <div class="card-header">
-        <h4>Permission List</h4>
+        <h4>Daftar Hak Akses</h4>
       </div>
       <div class="card-body">
         <div class="row">

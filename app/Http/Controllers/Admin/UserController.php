@@ -25,7 +25,7 @@ class UserController extends Controller
    */
   public function index()
   {
-    $this->authorizePermissions('see_users');
+    $this->authorizePermissions('Melihat daftar pengguna');
 
     $users = User::all();
     return view('admin.users.index', compact('users'));
@@ -38,7 +38,7 @@ class UserController extends Controller
    */
   public function create()
   {
-    $this->authorizePermissions('add_user');
+    $this->authorizePermissions('Menambah pengguna');
     $roles = Role::all()->pluck('name');
     return view('admin.users.create', compact('roles'));
   }
@@ -51,7 +51,7 @@ class UserController extends Controller
    */
   public function store(AddRequest $request)
   {
-    $this->authorizePermissions('add_user');
+    $this->authorizePermissions('Menambah pengguna');
 
     $data = $request->all();
     $data['password'] = Hash::make($data['password']);
@@ -61,13 +61,13 @@ class UserController extends Controller
       
       return redirect('user')->with('alert', [
         'type' => 'success',
-        'message' => 'User has successfully added.'
+        'message' => 'Berhasil menambah pengguna.'
       ]);
     }
 
     return redirect('user')->with('alert', [
       'type' => 'danger',
-      'message' => 'Failed to delete user, something went wrong.'
+      'message' => 'Gagal menambah pengguna.'
     ]);
   }
 
@@ -79,7 +79,7 @@ class UserController extends Controller
    */
   public function show($id)
   {
-    $this->authorizePermissions('see_user');
+    $this->authorizePermissions('Melihat detail pengguna');
 
     $user = User::find($id);
     return view('admin.users.show', compact('user'));
@@ -93,7 +93,7 @@ class UserController extends Controller
    */
   public function edit($id)
   {
-    $this->authorizePermissions('edit_user');
+    $this->authorizePermissions('Mengubah data pengguna');
     
     $user = User::find($id);
     $roles = Role::all()->pluck('name');
@@ -109,19 +109,19 @@ class UserController extends Controller
    */
   public function update(EditRequest $request, $id)
   {
-    $this->authorizePermissions('edit_user');
+    $this->authorizePermissions('Mengubah data pengguna');
 
     if ( User::where('id', $id)->update($request->except(['_method', '_token', 'role'])) ) {
       User::find($id)->syncRoles($request->role);
       return redirect('user')->with('alert', [
         'type' => 'success',
-        'message' => 'User data has successfully updated.'
+        'message' => 'Berhasil mengubah data pengguna.'
       ]);
     }
 
     return redirect('user')->with('alert', [
       'type' => 'danger',
-      'message' => 'Failed to edit user, something went wrong.'
+      'message' => 'Gagal mengubah data pengguna.'
     ]);
   }
 
@@ -133,18 +133,18 @@ class UserController extends Controller
    */
   public function destroy($id)
   {
-    $this->authorizePermissions('delete_user');
+    $this->authorizePermissions('Menghapus pengguna');
 
     if ( User::where('id', $id)->delete() ) {
       return redirect('user')->with('alert', [
         'type' => 'success',
-        'message' => 'User has successfully deleted.'
+        'message' => 'Berhasil menghapus pengguna.'
       ]);
     }
 
     return redirect('user')->with('alert', [
       'type' => 'danger',
-      'message' => 'Failed to delete user, something went wrong.'
+      'message' => 'Gagal menghapus pengguna.'
     ]);
   }
 
@@ -159,13 +159,13 @@ class UserController extends Controller
     if ( User::where('id', $id)->update($request->only('name', 'email')) ) {
       return redirect('profile')->with('alert', [
         'type' => 'success',
-        'message' => 'Profile successfully updated.'
+        'message' => 'Berhasil mengubah data profil.'
       ]);
     } 
 
     return redirect('profile')->with('alert', [
       'type' => 'danger',
-      'message' => 'Failed to update profile, something went wrong.'
+      'message' => 'Gagal mengubah data profil.'
     ]);
   }
 
@@ -180,7 +180,7 @@ class UserController extends Controller
       if ( !in_array($extension, $imageTypes) ) {
         return redirect()->route('profile')->with('alert', [
           'type' => 'danger',
-          'message' => 'Your file was not an image.'
+          'message' => 'Yang anda unggah bukan gambar.'
         ]);
       }
 
@@ -204,14 +204,14 @@ class UserController extends Controller
       if ( $result && User::where('id', auth()->user()->id)->update(['image' => $imageName]) ) {
         return redirect()->route('profile')->with('alert', [
           'type' => 'success',
-          'message' => 'Successfully change profile image.'
+          'message' => 'Berhasil mengubah gambar profil.'
         ]);
       }
     }
 
     return redirect()->route('profile')->with('alert', [
       'type' => 'danger',
-      'message' => 'Failed to change profile image, something went wrong.'
+      'message' => 'Gagal mengubah gambar profil.'
     ]);
   }
 
@@ -223,11 +223,15 @@ class UserController extends Controller
       if ( User::where('id', $id)->update(['password' => Hash::make($request->password)]) ) {
         return redirect()->route('profile')->with('alert', [
           'type' => 'success',
-          'message' => 'Password successfully changed.'
+          'message' => 'Berhasil mengganti password.'
         ]);
       }
+      return redirect()->route('profile')->with('alert', [
+        'type' => 'danger',
+        'message' => 'Gagal mengganti password.'
+      ]);
     }
 
-    return redirect()->route('profile')->with('error', 'Old password wrong.');
+    return redirect()->route('profile')->with('error', 'Password lama anda salah.');
   }
 }

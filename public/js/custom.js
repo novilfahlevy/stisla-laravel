@@ -11,12 +11,13 @@ $('.datatable').DataTable();
 
 function swalDelete(callback) {
   Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
+    title: 'Apakah anda yakin?',
+    text: "Data yang sudah dihapus tidak dapat dipulihkan lagi!",
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes'
+    cancelButtonText: 'Batal',
+    confirmButtonText: 'Iya'
   }).then(result => callback(result.value));
 }
