@@ -46,9 +46,6 @@
                         Delete
                       </a>
                       @endcan
-                      <a href="/" class="dropdown-item" id="toggleDeleteableRole" data-id="{{ $role->id }}">
-                        {{ $role->is_deleteable ? 'Undeleteable' : 'Deleteable' }}
-                      </a>
                     </div>
                   </div>
                 </div>
