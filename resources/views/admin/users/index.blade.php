@@ -1,5 +1,6 @@
 @extends('layouts.admin.app', ['title' => 'Pengguna'])
 
+
 @section('content')
 <div class="row">
   <div class="col-12">
@@ -24,13 +25,13 @@
               <th scope="col">Nama</th>
               <th scope="col">Email</th>
               <th scope="col">Role</th>
-              <th scope="col">Dibuat pada</th>
+              <th scope="col">Terdaftar pada</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             @foreach ($users as $i => $user)
-              <tr>
+            <tr>
                 <th scope="row">{{ $i + 1 }}</th>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
@@ -55,9 +56,11 @@
                       </a>
                       @endcan
                       @can('Menghapus pengguna')
-                      <a href="/" class="dropdown-item" id="deleteButton" data-id="{{ $user->id }}">
-                        Hapus
-                      </a>
+                        @if ( $user->roles->pluck('is_deleteable')->first() )
+                        <a href="/" class="dropdown-item" id="deleteButton" data-id="{{ $user->id }}">
+                          Hapus
+                        </a>
+                        @endif
                       @endcan
                     </div>
                   </div>

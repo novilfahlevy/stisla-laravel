@@ -43,8 +43,8 @@ class RoleController extends Controller
   public function store(Request $request)
   {
     $this->authorizePermissions('Menambah role');
-
-    if ( $role = Role::create(['name' => strtolower($request->name)]) ) {
+    
+    if ( $role = Role::create(['name' => strtolower($request->name), 'is_deleteable' => !$request->isDeleteable]) ) {
       if ( $role->syncPermissions(json_decode($request->permissions)) ) {
         return redirect('role')->with('alert', [
           'type' => 'success',
@@ -80,7 +80,7 @@ class RoleController extends Controller
   {
     $this->authorizePermissions('Mengubah data role');
 
-    $role = Role::find($id)->only(['id', 'name']);
+    $role = Role::find($id)->only(['id', 'name', 'is_deleteable']);
     $permissions = Permission::select([
       '*',
       'isCurrentPermission' => DB::table('role_has_permissions')
@@ -109,7 +109,7 @@ class RoleController extends Controller
     $this->authorizePermissions('Mengubah data role');
 
     if ( 
-      Role::where('id', $id)->update(['name' => strtolower($request->name)]) 
+      Role::where('id', $id)->update(['name' => strtolower($request->name), 'is_deleteable' => !$request->isDeleteable]) 
       &&
       Role::find($id)->syncPermissions(json_decode($request->permissions))
     ) {
@@ -146,6 +146,22 @@ class RoleController extends Controller
     return redirect('role')->with('alert', [
       'type' => 'danger',
       'message' => 'Gagal menghapus role.'
+    ]);
+  }
+
+  public function toggleDeleteable($id)
+  {
+    $role = Role::where('id', $id);
+    if ( $role->count() ) {
+      $role->update(['is_deleteable' => !$role->first()->is_deleteable]);
+      return redirect('role')->with('alert', [
+        'type' => 'success',
+        'message' => 'Berhasil mengubah data role.'
+      ]);
+    }
+    return redirect('role')->with('alert', [
+      'type' => 'danger',
+      'message' => 'Gagal mengubah data role.'
     ]);
   }
 }
