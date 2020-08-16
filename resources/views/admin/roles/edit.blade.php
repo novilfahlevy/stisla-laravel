@@ -52,7 +52,7 @@
               </div>
               <div class="col-12">
                 <input type="hidden" name="permissions" id="permissions" value="{{ $currentPermissions }}">
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
               </div>
             </div>
           </form>

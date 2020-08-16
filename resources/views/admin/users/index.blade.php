@@ -25,7 +25,7 @@
               <th scope="col">Nama</th>
               <th scope="col">Email</th>
               <th scope="col">Role</th>
-              <th scope="col">Dibuat pada</th>
+              <th scope="col">Terdaftar pada</th>
               <th scope="col"></th>
             </tr>
           </thead>
